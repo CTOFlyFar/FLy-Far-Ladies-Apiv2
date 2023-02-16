@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CoverImage } from "src/tour_packages/entities/image.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class TourPackage {
@@ -6,8 +7,9 @@ export class TourPackage {
     Id:number
     @Column({unique:true})
     PkId:string
-    @Column()
-    CoverImage:string
+    @OneToOne(()=>CoverImage)
+    @JoinColumn()
+    CoverImage:CoverImage
     @Column()
     Title:string
     @Column()
@@ -44,6 +46,9 @@ export class TourPackage {
     @Column()
     @UpdateDateColumn()
     UpdatedAt:Date
+
+   
+    
 
 
 

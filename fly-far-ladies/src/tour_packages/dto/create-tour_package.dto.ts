@@ -1,7 +1,6 @@
 export class CreateTourPackageDto {
     Id:number
     PkId:string
-    CoverImage:string
     Title:string
     SubTitle:string
     Location:string

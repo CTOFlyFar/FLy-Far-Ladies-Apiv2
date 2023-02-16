@@ -7,10 +7,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { users } from './users/entities/user.entity';
 import { TourPackage } from './tour_packages/entities/tour_package.entity';
+import { CoverImage } from './tour_packages/entities/image.entity';
+import { MulterModule } from '@nestjs/platform-express/multer';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
+  }),
+  MulterModule.register({
+    dest: './CoverImage',
   }),
   TypeOrmModule.forRoot({
     type: 'mysql',
@@ -20,7 +25,7 @@ import { TourPackage } from './tour_packages/entities/tour_package.entity';
     password:"",
     database: 'flyfar-ladies',
     autoLoadEntities: true,
-    entities: [users, TourPackage],
+    entities: [users, TourPackage, CoverImage],
     synchronize:true
   }),UsersModule, TourPackagesModule],
   controllers: [AppController],
