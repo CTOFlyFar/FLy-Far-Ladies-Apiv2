@@ -1,6 +1,7 @@
 import { CoverImage } from "src/tour_packages/entities/image.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+
 @Entity()
 export class TourPackage {
     @PrimaryGeneratedColumn()
@@ -46,11 +47,6 @@ export class TourPackage {
     @Column()
     @UpdateDateColumn()
     UpdatedAt:Date
-
-   
-    
-
-
 
 
 }

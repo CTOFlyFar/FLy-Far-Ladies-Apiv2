@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 
 
 @Entity()
@@ -8,7 +8,24 @@ export class CoverImage{
     @Column()
     ImageTitle:string
     @Column()
-    Image:Buffer
-    
+    FileId:number
+    @Column()
+    fieldname:string
+    @Column()
+    originalname:string
+    @Column()
+    encoding:string
+    @Column()
+    destination:string
+    @Column()
+    filename:string
+    @Column()
+    path: string 
+    @Column()
+    size:string
+    // @OneToOne(()=>ImageFileDetails)
+    // @JoinColumn()
+    // ImageFileDetails:ImageFileDetails
+   
 
 }

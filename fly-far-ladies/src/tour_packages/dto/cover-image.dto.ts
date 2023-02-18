@@ -2,8 +2,13 @@
 export class CreateCoverImageDto{
     ImageId:number
     ImageTitle:string
-    ImageUrl:string
-    Image:Buffer
-  
+    FileId:number
+    fieldname:string
+    originalname:string
+    encoding:string
+    destination:string
+    filename:string
+    path: string
+    size:string
 
 }

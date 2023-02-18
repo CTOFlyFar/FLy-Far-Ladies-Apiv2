@@ -10,6 +10,7 @@ import { TourPackage } from './tour_packages/entities/tour_package.entity';
 import { CoverImage } from './tour_packages/entities/image.entity';
 import { MulterModule } from '@nestjs/platform-express/multer';
 
+
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,

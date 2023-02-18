@@ -7,9 +7,9 @@ import { CreateCoverImageDto } from './dto/cover-image.dto';
 import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { CoverImage } from './entities/image.entity';
-import { extname } from 'path';
-import * as fs from 'fs';
-import * as path from 'path';
+import { createReadStream } from 'graceful-fs';
+import { join } from 'path';
+import { of } from 'rxjs';
 
 
 @Controller('tour-packages')
@@ -56,7 +56,7 @@ export class TourPackagesController {
 
   //cover image 
   @Post(':Id/CoverImage')
-  @UseInterceptors(FilesInterceptor('Image',10,{
+  @UseInterceptors(FilesInterceptor('Image',100,{
     storage:diskStorage({
       destination: './CoverImage',
       filename:(req, image, callback)=>{
@@ -66,8 +66,7 @@ export class TourPackagesController {
         callback(null, filename)
       }
     })
-    
-
+  
   }))
 
   async createCoverImage( 
@@ -82,13 +81,21 @@ export class TourPackagesController {
       .build({
         errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
       }),
+      
     )
-    files: Array<Express.Multer.File>,
-
+    files: Express.Multer.File,
     @Param('Id', ParseFilePipe)Id:number,
-    @Body() createcoverImageDto:CreateCoverImageDto){
-    console.log(files);
-    return this.tourPackagesService.createCoverImage(Id, createcoverImageDto);
+    @Body() createcoverImageDto:CreateCoverImageDto, @Req() req:Request, @Res() res:Response){  
+    
+    
+    const Imagepackage= await this.tourPackagesService.createCoverImage(Id,createcoverImageDto)
+    return res.status(HttpStatus.OK).send({message:"Image Added successfully", Imagepackage});
+  }
+
+  @Get('CoverImage/:filename')
+  getImageFile(@Param('filename') filename, @Res() res: Response){
+   return of(res.sendFile(join(process.cwd(), 'CoverImage/' + filename)));
+   
   }
 
 }

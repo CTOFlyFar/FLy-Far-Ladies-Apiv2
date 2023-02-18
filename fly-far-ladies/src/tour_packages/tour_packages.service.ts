@@ -1,6 +1,5 @@
 import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { clearGlobalAppDefaultCred } from 'firebase-admin/lib/app/credential-factory';
 import { Repository } from 'typeorm';
 import { CreateCoverImageDto } from './dto/cover-image.dto';
 import { CreateTourPackageDto } from './dto/create-tour_package.dto';
@@ -18,8 +17,8 @@ export class TourPackagesService {
 
    // add tour package 
   async create(createTourPackageDto: CreateTourPackageDto) {
-    const addPackage = await this.TourPackageRep.create(createTourPackageDto)
-    const tourpackage= await this.TourPackageRep.save(addPackage)
+    const addPackage = await this.TourPackageRep.create(createTourPackageDto);
+    const tourpackage= await this.TourPackageRep.save(addPackage);
     return tourpackage;
     
   }
@@ -52,7 +51,7 @@ export class TourPackagesService {
   async update(Id:number, updateTourPackageDto: UpdateTourPackageDto) {
 
     //for all data update
-    const updatepackage= await this.TourPackageRep.update({Id}, {...updateTourPackageDto})
+    const updatepackage= await this.TourPackageRep.update({Id}, {...updateTourPackageDto});
     return updatepackage;
     // const updatepackage = await this.TourPackageRep.findOne({where:{Id}})
     // updatepackage.Title = updateTourPackageDto.Title;
@@ -69,7 +68,7 @@ export class TourPackagesService {
  async remove(Id:string){
     const DeletePackage= await this.TourPackageRep.delete(Id);
     if(!DeletePackage){
-      throw new HttpException(`TourPackage not found with this = ${Id}`, HttpStatus.BAD_REQUEST)
+      throw new HttpException(`TourPackage not found with this = ${Id}`, HttpStatus.BAD_REQUEST);
     }
     return DeletePackage;
 
@@ -80,13 +79,24 @@ export class TourPackagesService {
     if(!Tourpackage){
       throw new HttpException("TourPackage not found, cann't add cover image", HttpStatus.BAD_REQUEST)
     }
-    const newtourpackage= await this.CoverImageRepo.create(CreateCoverImageDto)
-   
-    const savecoverimage= await this.CoverImageRepo.save(newtourpackage)
-    Tourpackage.CoverImage =savecoverimage
-
-    return  await this.TourPackageRep.save(Tourpackage)  
+    const newtourpackage= await this.CoverImageRepo.create(CreateCoverImageDto);
+    const savecoverimage= await this.CoverImageRepo.save(newtourpackage);
+    Tourpackage.CoverImage =savecoverimage;
+    return  await this.TourPackageRep.save(Tourpackage);
   }
+
+  
+  // async createImageFiledetails(FileId:number, ImageFileDetailsDto:ImageFileDetailsDto){
+  //   const imagefiledetails = await this.ImageDeatilsRepo.findOneBy({FileId});
+  //   if(!imagefiledetails){
+  //     throw new HttpException("Image file not found", HttpStatus.BAD_REQUEST)
+  //   }
+  //   const newimage= await this.ImageDeatilsRepo.create(ImageFileDetailsDto);
+  //   const saveimagedetails= await this.ImageDeatilsRepo.save(newimage);
+  //   imagefiledetails.ImageFileDetails =saveimagedetails
+  //   // imagefiledetails.destination = ImageFileDetailsDto.destination
+  //   return  await this.ImageDeatilsRepo.save(saveimagedetails);
+  // }
 
 
    
