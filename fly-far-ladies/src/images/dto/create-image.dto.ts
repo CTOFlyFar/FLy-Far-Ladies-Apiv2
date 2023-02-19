@@ -1,8 +1,7 @@
-
-export class CreateCoverImageDto{
+export class CreateImageDto {
     ImageId:number
     ImageTitle:string
-    FileId:number
+    FileId:string
     fieldname:string
     originalname:string
     encoding:string
@@ -10,5 +9,8 @@ export class CreateCoverImageDto{
     filename:string
     path: string
     size:string
-
 }
+
+
+
+

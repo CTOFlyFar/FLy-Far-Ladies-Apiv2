@@ -1,14 +1,13 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
-
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
-export class CoverImage{
+export class Image {
     @PrimaryGeneratedColumn()
     ImageId:number
     @Column()
     ImageTitle:string
     @Column()
-    FileId:number
+    FileId:string
     @Column()
     fieldname:string
     @Column()
@@ -23,9 +22,4 @@ export class CoverImage{
     path: string 
     @Column()
     size:string
-    // @OneToOne(()=>ImageFileDetails)
-    // @JoinColumn()
-    // ImageFileDetails:ImageFileDetails
-   
-
 }
