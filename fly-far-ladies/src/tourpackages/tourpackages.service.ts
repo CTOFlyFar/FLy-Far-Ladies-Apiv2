@@ -8,25 +8,25 @@ import { TourPackage } from './entities/tourpackage.entity';
 @Injectable()
 export class TourpackagesService {
   constructor(@InjectRepository(TourPackage) private travelPackageRepo:Repository<TourPackage>){}
-  create(createTourpackageDto: CreateTourPackageDto) {
-    const travelpackage = this.travelPackageRepo.create(createTourpackageDto)
-    const Addtravelpackage = this.travelPackageRepo.save(travelpackage)
+  async create(createTourpackageDto: CreateTourPackageDto) {
+    const travelpackage =await this.travelPackageRepo.create(createTourpackageDto)
+    const Addtravelpackage = await this.travelPackageRepo.save(travelpackage)
     return Addtravelpackage;
   }
 
-  findAll() {
+  async findAll() {
     return this.travelPackageRepo.find({});
   }
 
-  findOne(Id: number) {
-    return  this.travelPackageRepo.findOneBy({Id});
+  async findOne(Id: number) {
+    return await this.travelPackageRepo.findOneBy({Id});
   }
 
-  update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
-    return this.travelPackageRepo.update({Id}, {...updateTourpackageDto})
+  async update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
+    return await this.travelPackageRepo.update({Id}, {...updateTourpackageDto})
   }
 
-  remove(Id: number) {
-    return this.travelPackageRepo.delete(Id);
+  async remove(Id: number) {
+    return await this.travelPackageRepo.delete(Id);
   }
 }

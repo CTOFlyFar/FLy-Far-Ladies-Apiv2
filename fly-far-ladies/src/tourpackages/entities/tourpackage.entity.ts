@@ -3,92 +3,49 @@ import { Column, CreateDateColumn, Entity,PrimaryGeneratedColumn, UpdateDateColu
 
 @Entity()
 export class TourPackage {
-    @PrimaryGeneratedColumn ()
-    Id:number
+    @PrimaryGeneratedColumn()
+    Id:number;
+    @Column({unique:true})
+    PkId:string;
     @Column()
-    PkId:string
+    MainTitle:string;
     @Column()
-    Title:string
+    SubTitle:string;
     @Column()
-    SubTitle:string
+    Price:string;
     @Column()
-    Location:string
+    CoverImage:string;
     @Column()
-    StartDate:string
+    Location:string;
     @Column()
-    EndDate:string
+    StartDate:string;
     @Column()
-    ShortDescription:string
+    EndDate:string;
     @Column()
-    Overview:string
+    TotalDuration:string;
+    @Column('text')
+    PackageIncluded:string;
+    @Column('text')
+    PackageOverview:string;
+    @Column('text')
+    PackageVisitedPlace:string;
+    @Column('text')
+    PackageHighlight:string;
+    @Column('text')
+    PackageTourPlan:string;
+    @Column('text')
+    PackageInclusion:string;
     @Column()
-    Includes:string
+    PackageExclusion:string;
+    @Column('text')
+    PackageBookingPolicy:string;
+    @Column('text')
+    PackageRefundPolicy:string;
     @Column()
-    VisitedImages:string 
+    AlbumTitle:string;
     @Column()
-    Highlights:string
-    @Column()
-    TourPlan:string
-    @Column()
-    Price:number
-    @Column()
-    Duration:string
-    @Column()
-    BookNow:string
-    @Column()
-    WishList:string
-    @Column()
-    @CreateDateColumn()
-    CreatedAt:Date
-    @Column()
-    @UpdateDateColumn()
-    UpdatedAt:Date
-    @Column()
-    HighlightsBN:string
-    @Column()
-    HighlightsEN:string
-    @Column()
-    TourPlanBN :string
-    @Column()
-    TourPlanEN :string
-    @Column()
-    PriceEN:number
-    @Column()
-    PriceBN:number
-    @Column()
-    BookNowBN:string
-    @Column()
-    BookNowWEN:string
-    @Column()
-    ExclusionEN: string
-    @Column()
-    ExclusionBN: string
-    @Column()
-    PlaceVisitEN: string
-    @Column()
-    PlaceVisitBN: string
-    @Column()
-    DetailsEN: string
-    @Column()
-    DetailsBN: string
-    @Column()
-    BookingPolicyEN: string
-    @Column()
-    BookingPolicyBN: string
-    @Column()
-    RefundPolicyEN: string
-    @Column()
-    RefundPolicyBN: string
-    @Column()
-    TermsEN:string
-    @Column()
-    TermsBN: string
-    @Column()
-    OverviewBN:string
-    @Column()
-    OverviewEN:string
-    @Column()
-    IncludesBN:string
-    @Column()
-    IncludesEN:string
+    AlbumImage:string;
+    @Column('boolean', {default: true})
+    Showpackage:boolean;
+
 }
