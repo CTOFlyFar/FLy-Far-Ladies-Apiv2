@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express/multer';
-import { ImagesModule } from './images/images.module';
-import { Image } from './images/entities/image.entity';
 import { TourPackage } from './tourpackages/entities/tourpackage.entity';
 import { TourpackagesModule } from './tourpackages/tourpackages.module';
+import { ImageModule } from './image/image.module';
+import { Image } from './image/entities/image.entity';
 
 
 @Module({
@@ -27,7 +27,7 @@ import { TourpackagesModule } from './tourpackages/tourpackages.module';
     synchronize:true,
   }),
   UsersModule,
-  ImagesModule
+  ImageModule,
 ],
   controllers: [AppController],
   providers: [AppService],

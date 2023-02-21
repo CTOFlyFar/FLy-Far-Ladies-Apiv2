@@ -1,16 +1,10 @@
-export class CreateImageDto {
-    ImageId:number
+export class CreateImageDto{
+    Id:number
     ImageTitle:string
-    FileId:string
     fieldname:string
     originalname:string
-    encoding:string
     destination:string
     filename:string
     path: string
     size:string
 }
-
-
-
-
