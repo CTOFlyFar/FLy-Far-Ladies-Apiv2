@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 declare const module: any;
 
 async function start() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('FlyFar-Ladies')
     .setDescription('The flyfar-ladies API description')

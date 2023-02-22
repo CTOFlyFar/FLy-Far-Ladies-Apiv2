@@ -1,8 +1,9 @@
 
-import { Column, CreateDateColumn, Entity,PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+
+import { Column, Entity,PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class TourPackage {
+export class tourpackage {
     @PrimaryGeneratedColumn()
     Id:number;
     @Column({unique:true})
@@ -13,8 +14,6 @@ export class TourPackage {
     SubTitle:string;
     @Column()
     Price:string;
-    @Column()
-    CoverImage:string;
     @Column()
     Location:string;
     @Column()

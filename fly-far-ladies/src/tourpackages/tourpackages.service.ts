@@ -1,13 +1,18 @@
-import { Injectable } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
+
+
 import { Repository } from 'typeorm';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
-import { TourPackage } from './entities/tourpackage.entity';
+import { tourpackage } from './entities/tourpackage.entity';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TourpackagesService {
-  constructor(@InjectRepository(TourPackage) private travelPackageRepo:Repository<TourPackage>){}
+  constructor( 
+    @InjectRepository(tourpackage) private travelPackageRepo:Repository<tourpackage>){}
+
   async create(createTourpackageDto: CreateTourPackageDto) {
     const travelpackage =await this.travelPackageRepo.create(createTourpackageDto)
     const Addtravelpackage = await this.travelPackageRepo.save(travelpackage)
@@ -15,8 +20,9 @@ export class TourpackagesService {
   }
 
   async findAll() {
-    return this.travelPackageRepo.find({});
-  }
+    return this.travelPackageRepo.find({
+  })
+}
 
   async findOne(Id: number) {
     return await this.travelPackageRepo.findOneBy({Id});
@@ -29,4 +35,18 @@ export class TourpackagesService {
   async remove(Id: number) {
     return await this.travelPackageRepo.delete(Id);
   }
+
+
+  // async AddImage(Id:number,CreateImageDto:CreateImageDto){
+  //   const Tourpackage = await this.travelPackageRepo.findOneBy({Id});
+  //   if(!Tourpackage){
+  //     throw new HttpException("TourPackage not found, cann't add cover image", HttpStatus.BAD_REQUEST)
+  //   }
+  //   const newtourpackage= await this.imagerepo.create(CreateImageDto)
+   
+  //   const savecoverimage= await this.imagerepo.save(newtourpackage)
+  //   Tourpackage.images =savecoverimage
+
+  //   return  await this.travelPackageRepo.save(Tourpackage)  
+  // }
 }

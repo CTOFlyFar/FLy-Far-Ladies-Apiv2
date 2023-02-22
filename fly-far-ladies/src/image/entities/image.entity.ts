@@ -1,3 +1,6 @@
+
+
+
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 
@@ -17,6 +20,9 @@ export class Image{
     filename:string
     @Column()
     path: string
-    @Column()
+    @Column() 
     size:string
+    // @ManyToOne(() => tourpackage, (tourpackage) => tourpackage.images)
+    // @JoinColumn({ name: 'id_datasource' })
+    // coverimage: tourpackage
 }

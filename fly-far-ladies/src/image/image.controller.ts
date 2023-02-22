@@ -1,22 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req, Res, ParseFilePipeBuilder, HttpStatus, UploadedFiles, StreamableFile } from '@nestjs/common';
+
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Req, Res, ParseFilePipeBuilder, HttpStatus, UploadedFiles } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { UpdateImageDto } from './dto/update-image.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Image } from './entities/image.entity';
 import { Repository } from 'typeorm';
 import { diskStorage } from 'multer';
-
 import { Response } from 'express';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { CreateImageDto } from './dto/create-image.dto';
-import { createReadStream } from 'fs';
+
 import { join } from 'path';
 import { of } from 'rxjs';
+import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
 
 @Controller('images')
 export class ImageController {
   constructor(@InjectRepository(Image) private imageRepo: Repository<Image>,
-    private readonly imageService: ImageService) {}
+     private readonly imageService: ImageService) {}
 
   @Post('AddImage')
   @UseInterceptors(FilesInterceptor('images',20,{
@@ -43,7 +42,7 @@ export class ImageController {
         errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
       }),
   )
-  files:Express.Multer.File[], @Req() req: Request, @Res() res: Response, CreateImageDto:CreateImageDto){ 
+  files:Express.Multer.File[], @Req() req: Request, @Res() res: Response,){ 
     for(const file of files){
       const  newimage= new Image();
       newimage.filename = file.filename
