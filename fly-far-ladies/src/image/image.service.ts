@@ -11,7 +11,7 @@ export class ImageService {
   findAll() {
     return this.imageRepo.find({});
   }
-findOneById(Id:number) {
+ findOneById(Id:number) {
     return this.imageRepo.findOneBy({Id})
 }
 

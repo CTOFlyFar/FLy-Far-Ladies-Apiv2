@@ -1,7 +1,8 @@
 
 
 
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { tourpackage } from "src/tourpackages/entities/tourpackage.entity"
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 
 
 @Entity()
@@ -22,7 +23,4 @@ export class Image{
     path: string
     @Column() 
     size:string
-    // @ManyToOne(() => tourpackage, (tourpackage) => tourpackage.images)
-    // @JoinColumn({ name: 'id_datasource' })
-    // coverimage: tourpackage
 }

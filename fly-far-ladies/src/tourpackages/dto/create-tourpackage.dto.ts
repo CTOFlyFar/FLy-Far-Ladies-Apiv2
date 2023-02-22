@@ -7,6 +7,8 @@ export class CreateTourPackageDto {
     Location:string
     StartDate:string
     EndDate:string
+    TripType:string
+    Availability:boolean
     TotalDuration:string
     PackageIncluded:string
     PackageOverview:string
