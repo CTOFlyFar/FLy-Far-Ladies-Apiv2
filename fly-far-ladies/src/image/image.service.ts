@@ -3,11 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { Repository } from 'typeorm/repository/Repository';
 import { UpdateImageDto } from './dto/update-image.dto';
-import { Image } from './entities/image.entity';
+import { image } from './entities/image.entity';
 
 @Injectable()
 export class ImageService {
-  constructor(@InjectRepository(Image) private imageRepo: Repository<Image>){}
+  constructor(@InjectRepository(image) private imageRepo: Repository<image>){}
   findAll() {
     return this.imageRepo.find({});
   }

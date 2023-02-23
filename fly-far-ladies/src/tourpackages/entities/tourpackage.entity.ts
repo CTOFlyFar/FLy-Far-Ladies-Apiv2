@@ -1,9 +1,8 @@
-import { Image } from 'src/image/entities/image.entity';
+import { image } from 'src/image/entities/image.entity';
 import {
   Column,
   Entity,
   JoinColumn,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -45,6 +44,8 @@ export class tourpackage {
   @Column('text')
   PackageInclusion: string;
   @Column()
+  CartImage:string
+  @Column()
   PackageExclusion: string;
   @Column('text')
   PackageBookingPolicy: string;
@@ -56,7 +57,7 @@ export class tourpackage {
   AlbumImage: string;
   @Column({ default: true })
   Showpackage: boolean;
-  @OneToOne(() => Image)
+  @OneToOne(() => image)
   @JoinColumn()
-  CoverImage: Image;
+  image:image;
 }

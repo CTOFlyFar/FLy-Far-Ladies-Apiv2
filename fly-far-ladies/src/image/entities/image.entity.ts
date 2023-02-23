@@ -1,12 +1,8 @@
 
-
-
-import { tourpackage } from "src/tourpackages/entities/tourpackage.entity"
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-
+import { Column, Entity,PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
-export class Image{
+export class image{
     @PrimaryGeneratedColumn()
     Id:number
     @Column()

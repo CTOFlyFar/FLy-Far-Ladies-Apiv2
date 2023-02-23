@@ -3,7 +3,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Req
 import { ImageService } from './image.service';
 import { UpdateImageDto } from './dto/update-image.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Image } from './entities/image.entity';
 import { Repository } from 'typeorm';
 import { diskStorage } from 'multer';
 import { Response } from 'express';
@@ -11,10 +10,11 @@ import { Response } from 'express';
 import { join } from 'path';
 import { of } from 'rxjs';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
+import { image } from './entities/image.entity';
 
 @Controller('images')
 export class ImageController {
-  constructor(@InjectRepository(Image) private imageRepo: Repository<Image>,
+  constructor(@InjectRepository(image) private imageRepo: Repository<image>,
      private readonly imageService: ImageService) {}
 
   @Post('AddImage')
@@ -44,7 +44,7 @@ export class ImageController {
   )
   files:Express.Multer.File[], @Req() req: Request, @Res() res: Response,){ 
     for(const file of files){
-      const  newimage= new Image();
+      const  newimage= new image();
       newimage.filename = file.filename
       newimage.destination = file.destination;
       newimage.fieldname = file.fieldname;

@@ -1,19 +1,15 @@
-import { Image } from './../image/entities/image.entity';
-
+import { image } from './../image/entities/image.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-
-
 import { Repository } from 'typeorm';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { tourpackage } from './entities/tourpackage.entity';
-import {HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { CreateImageDto } from 'src/image/dto/create-image.dto';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TourpackagesService {
   constructor(@InjectRepository(tourpackage) private travelPackageRepo:Repository<tourpackage>,
-  @InjectRepository(Image) private Imagerepo:Repository<Image>){}
+  @InjectRepository(image) private Imagerepo:Repository<image>){}
 
   async create(createTourpackageDto: CreateTourPackageDto) {
     const travelpackage =await this.travelPackageRepo.create(createTourpackageDto)
@@ -23,6 +19,7 @@ export class TourpackagesService {
 
   async findAll() {
     return this.travelPackageRepo.find({
+      relations:["image"],
   })
 }
 
@@ -38,16 +35,14 @@ export class TourpackagesService {
     return await this.travelPackageRepo.delete(Id);
   }
 
-
-  async AddImage(Id:number,CreateImageDto:CreateImageDto){
-    const Tourpackage = await this.travelPackageRepo.findOneBy({Id});
-    if(!Tourpackage){
-      throw new HttpException("TourPackage not found, cann't add cover image", HttpStatus.BAD_REQUEST)
-    }
-    const newtourpackage = await this.Imagerepo.create(CreateImageDto);
-   
-    const savecoverimage = await this.Imagerepo.save(newtourpackage);
-
-    return  await this.travelPackageRepo.save(Tourpackage)  
-  }
+  // async AddImage(Id:number,CreateImageDto:CreateImageDto){
+  //   const Tourpackage = await this.travelPackageRepo.findOneBy({Id});
+  //   if(!Tourpackage){
+  //     throw new HttpException("TourPackage not found, cann't add cover image", HttpStatus.BAD_REQUEST)
+  //   }
+  //   const newtourpackage = await this.Imagerepo.create(CreateImageDto);
+  //   const savecoverimage = await this.Imagerepo.save(newtourpackage);
+  //   Tourpackage.Image = newtourpackage
+  //   return  await this.travelPackageRepo.save(savecoverimage)  
+  // }
 }

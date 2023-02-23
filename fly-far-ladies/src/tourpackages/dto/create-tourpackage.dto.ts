@@ -4,14 +4,24 @@ export class CreateTourPackageDto {
     MainTitle:string
     SubTitle:string
     Price:string
+
     Location:string
     StartDate:string
     EndDate:string
     TripType:string
     Availability:boolean
     TotalDuration:string
-    PackageIncluded:string
     PackageOverview:string
+    PackageIncluded:string
+    CartImage:string
+
+
+
+
+
+
+
+
     PackageVisitedPlace:string
     PackageHighlight:string
     PackageTourPlan:string
@@ -22,9 +32,6 @@ export class CreateTourPackageDto {
     AlbumTitle:string
     AlbumImage:string
     Showpackage:boolean
-
-
-
 }
 
 // Id:number

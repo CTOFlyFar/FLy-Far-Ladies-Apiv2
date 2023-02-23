@@ -1,3 +1,4 @@
+import { image } from './image/entities/image.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,14 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express/multer';
 import { TourpackagesModule } from './tourpackages/tourpackages.module';
 import { ImageModule } from './image/image.module';
-import { Image } from './image/entities/image.entity';
 import { tourpackage } from './tourpackages/entities/tourpackage.entity';
 
 @Module({
   imports: [
-    TourpackagesModule,
-    UsersModule,
-    ImageModule,
+   
     MulterModule.register({
       dest: './CoverImage',
     }),
@@ -23,10 +21,14 @@ import { tourpackage } from './tourpackages/entities/tourpackage.entity';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'FlyFar-ladies',
+      database: 'flyfar-ladies',
       autoLoadEntities: true,
-      entities: [tourpackage, Image],
+      entities: [tourpackage,image],
+      synchronize:true,
     }),
+    TourpackagesModule,
+    UsersModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
