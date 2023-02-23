@@ -1,11 +1,12 @@
+import { JoinColumn, OneToOne } from 'typeorm';
 import { image } from 'src/image/entities/image.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { packageincluded } from './PackageInclude.entity';
+import { packageinclusion } from './packageInclusion.entitry';
 
 @Entity()
 export class tourpackage {
@@ -32,8 +33,6 @@ export class tourpackage {
   @Column()
   TotalDuration: string;
   @Column('text')
-  PackageIncluded: string;
-  @Column('text')
   PackageOverview: string;
   @Column('text')
   PackageVisitedPlace: string;
@@ -41,10 +40,6 @@ export class tourpackage {
   PackageHighlight: string;
   @Column('text')
   PackageTourPlan: string;
-  @Column('text')
-  PackageInclusion: string;
-  @Column()
-  CartImage:string
   @Column()
   PackageExclusion: string;
   @Column('text')
@@ -57,7 +52,17 @@ export class tourpackage {
   AlbumImage: string;
   @Column({ default: true })
   Showpackage: boolean;
+
+
   @OneToOne(() => image)
+  @JoinColumn({name:"cartImage"})
+  cartimage:image;
+
+  @OneToOne(()=>packageinclusion)
   @JoinColumn()
-  image:image;
+  PackageInclusions:packageinclusion
+
+  @OneToOne(()=>packageincluded)
+  @JoinColumn({name:"package_included"})
+  packageincluded:packageincluded;
 }

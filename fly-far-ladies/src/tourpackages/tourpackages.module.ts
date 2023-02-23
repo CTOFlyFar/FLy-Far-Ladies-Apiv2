@@ -5,8 +5,10 @@ import { TourpackagesService } from './tourpackages.service';
 import { TourpackagesController } from './tourpackages.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { image } from 'src/image/entities/image.entity';
+import { packageincluded } from './entities/PackageInclude.entity';
+import { packageinclusion } from './entities/packageInclusion.entitry';
 @Module({
-  imports:[TypeOrmModule.forFeature([tourpackage,image])],
+  imports:[TypeOrmModule.forFeature([tourpackage,image, packageincluded, packageinclusion])],
   controllers: [TourpackagesController],
   providers: [TourpackagesService]
   

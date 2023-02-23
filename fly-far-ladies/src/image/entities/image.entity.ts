@@ -19,4 +19,6 @@ export class image{
     path: string
     @Column() 
     size:string
+    // @ManyToOne(()=>tourpackage,(tourpackage)=>tourpackage.images)
+    // tourpackages:tourpackage;
 }

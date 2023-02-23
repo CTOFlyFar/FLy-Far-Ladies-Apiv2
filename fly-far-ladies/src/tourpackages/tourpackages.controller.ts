@@ -1,28 +1,30 @@
 
 
+import { tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
+
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Res, HttpStatus, HttpException, ParseIntPipe, UploadedFiles, ParseFilePipeBuilder, UseInterceptors } from '@nestjs/common';
 import { TourpackagesService } from './tourpackages.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
-import {Request, Response} from 'express';
-import { CreateImageDto } from 'src/image/dto/create-image.dto';
+import { Request, Response } from 'express';
 import { image } from 'src/image/entities/image.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
 import { diskStorage } from 'multer';
-import { tourpackage } from './entities/tourpackage.entity';
+import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
+import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
   constructor(@InjectRepository(image) private imageRepo: Repository<image>,
-  @InjectRepository(tourpackage) private travelPackageRepo: Repository<tourpackage>,
-    private readonly tourpackagesService: TourpackagesService) {}
+    @InjectRepository(tourpackage) private travelPackageRepo: Repository<tourpackage>,
+    private readonly tourpackagesService: TourpackagesService) { }
 
   @Post('AddTravelPackage')
-  async create(@Body() createTourpackageDto: CreateTourPackageDto,@Req() req:Request, @Res() res:Response ) {
-    const TourPackage=  await this.tourpackagesService.create(createTourpackageDto);
-    return res.status(HttpStatus.CREATED).json({message:"Tour Package added successfully", TourPackage})
+  async create(@Body() createTourpackageDto: CreateTourPackageDto, @Req() req: Request, @Res() res: Response) {
+    const TourPackage = await this.tourpackagesService.create(createTourpackageDto);
+    return res.status(HttpStatus.CREATED).json({ message: "Tour Package added successfully", TourPackage })
   }
 
   @Get('AllPackages')
@@ -32,33 +34,33 @@ export class TourpackagesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    const tourpackage=this.tourpackagesService.findOne(+id);
-    if(!tourpackage){
+    const tourpackage = this.tourpackagesService.findOne(+id);
+    if (!tourpackage) {
       throw new HttpException(`TourPackage not found with this = ${id}`, HttpStatus.BAD_REQUEST)
     }
     return tourpackage;
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateTourpackageDto: UpdateTourpackageDto, req:Request, @Res() res:Response) {
-    const updatepackage= await this.tourpackagesService.update(+id, updateTourpackageDto);
-    if(!updatepackage){
+  async update(@Param('id') id: string, @Body() updateTourpackageDto: UpdateTourpackageDto, req: Request, @Res() res: Response) {
+    const updatepackage = await this.tourpackagesService.update(+id, updateTourpackageDto);
+    if (!updatepackage) {
       throw new HttpException(`TourPackage not found with this = ${id}`, HttpStatus.BAD_REQUEST)
     }
-    return res.status(HttpStatus.OK).json({message:`Tour Package with Id=${id} has updated successfully`, updatepackage})
+    return res.status(HttpStatus.OK).json({ message: `Tour Package with Id=${id} has updated successfully`, updatepackage })
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() req:Request, @Res() res:Response) {
-    const deletepackage= await this.tourpackagesService.remove(+id);
-    if(!deletepackage){
+  async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
+    const deletepackage = await this.tourpackagesService.remove(+id);
+    if (!deletepackage) {
       throw new HttpException(`TourPackage not found with this = ${id}`, HttpStatus.BAD_REQUEST)
     }
-    return res.status(HttpStatus.OK).json({message:`Tour Package Id=${id} has deleted successfully`, deletepackage})
+    return res.status(HttpStatus.OK).json({ message: `Tour Package Id=${id} has deleted successfully`, deletepackage })
   }
 
   @Post(':Id/images')
-  @UseInterceptors(FilesInterceptor('images',20,{
+  @UseInterceptors(FilesInterceptor('images', 20, {
     storage: diskStorage({
       destination: './Images',
       filename: (req, image, callback) => {
@@ -77,30 +79,45 @@ export class TourpackagesController {
           fileType: /(jpg|jpeg|png|gif)$/,
         })
         .addMaxSizeValidator({
-          maxSize: 1024*1024*6
+          maxSize: 1024 * 1024 * 6
         })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
         }),
     )
-    files:Express.Multer.File[], @Param("Id", ParseIntPipe) Id:number, creatimagedto:CreateImageDto, @Req() req: Request, @Res() res: Response){ 
-      const Tourpackage = await this.travelPackageRepo.findOneBy({Id});
-      if(!Tourpackage){
-        throw new HttpException("TourPackage not found, cann't add cover image", HttpStatus.BAD_REQUEST)
-      }
-      for(const file of files){
-        const newimage= await this.imageRepo.create(creatimagedto);
-        newimage.filename = file.filename
-        newimage.destination = file.destination;
-        newimage.fieldname = file.fieldname;
-        newimage.path =file.path;
-        newimage.originalname =file.originalname;
-        const saveimages= await this.imageRepo.save(newimage);
-        Tourpackage.image = saveimages
-        const updatedpackage= this.travelPackageRepo.save(Tourpackage)
-        return res.status(HttpStatus.OK).send({updatedpackage,message:"updated travel package with images"}) 
-      }  
+    files: Express.Multer.File[],
+    @Param("Id", ParseIntPipe) Id: number, @Req() req: Request, @Res() res: Response) {
+    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!Tourpackage) {
+      throw new HttpException("TourPackage not found, cann't add cover image", HttpStatus.BAD_REQUEST)
     }
-    
+    for (const file of files) {
+      // const newimage= await this.imageRepo.create});
+      const newimage = new image()
+      newimage.filename = file.filename
+      newimage.destination = file.destination;
+      newimage.fieldname = file.fieldname;
+      newimage.path = file.path;
+      newimage.originalname = file.originalname;
+      const updatedpackge = await this.imageRepo.save(newimage);
+      Tourpackage.cartimage =updatedpackge
+      await this.travelPackageRepo.save(Tourpackage)
+      return res.status(HttpStatus.OK).send({ updatedpackge, message: "updated travel package with images" })
+    }
+
   }
+
+  @Post(':Id/AddPackageIncluded')
+  addpackageIncluded(@Param("Id", ParseIntPipe)id: number,createpackageIncludeDto:createPackageIncludeDto, @Req() req: Request, @Res() res: Response) {
+    const packageincluded= this.tourpackagesService.AddpackageIncluded(id,createpackageIncludeDto);
+    return res.status(HttpStatus.OK).send({packageincluded, message: "updated travel package with images" })
+   }
+
+   @Post(':Id/AddPackageInclusions')
+   addpackageInclusion(@Param("Id", ParseIntPipe)id: number, packageInclusionsdto:createpackageincluionDto, @Req() req: Request, @Res() res: Response) {
+     const packageincluded= this.tourpackagesService.AddpackageInclusions(id,packageInclusionsdto);
+     return res.status(HttpStatus.OK).send({packageincluded, message: "updated travel package with images" })
+    }
+
+}
 

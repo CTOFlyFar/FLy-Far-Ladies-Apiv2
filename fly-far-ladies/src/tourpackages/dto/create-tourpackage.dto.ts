@@ -4,7 +4,6 @@ export class CreateTourPackageDto {
     MainTitle:string
     SubTitle:string
     Price:string
-
     Location:string
     StartDate:string
     EndDate:string
@@ -13,15 +12,6 @@ export class CreateTourPackageDto {
     TotalDuration:string
     PackageOverview:string
     PackageIncluded:string
-    CartImage:string
-
-
-
-
-
-
-
-
     PackageVisitedPlace:string
     PackageHighlight:string
     PackageTourPlan:string

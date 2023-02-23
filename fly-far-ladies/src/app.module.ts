@@ -8,6 +8,7 @@ import { MulterModule } from '@nestjs/platform-express/multer';
 import { TourpackagesModule } from './tourpackages/tourpackages.module';
 import { ImageModule } from './image/image.module';
 import { tourpackage } from './tourpackages/entities/tourpackage.entity';
+import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { tourpackage } from './tourpackages/entities/tourpackage.entity';
       password: '',
       database: 'flyfar-ladies',
       autoLoadEntities: true,
-      entities: [tourpackage,image],
+      entities: [tourpackage,image, packageincluded],
       synchronize:true,
     }),
     TourpackagesModule,
