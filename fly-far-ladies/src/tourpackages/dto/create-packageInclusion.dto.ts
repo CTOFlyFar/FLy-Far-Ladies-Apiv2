@@ -1,4 +1,5 @@
 export class createpackageincluionDto{
+   
    Id:number
    Inclusion1:string
    Inclusion2:string
@@ -20,6 +21,4 @@ export class createpackageincluionDto{
    Inclusion18:string
    Inclusion19:string
    Inclusion20:string
-
-
 }

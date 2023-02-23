@@ -1,10 +1,6 @@
 import { JoinColumn, OneToOne } from 'typeorm';
 import { image } from 'src/image/entities/image.entity';
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { packageincluded } from './PackageInclude.entity';
 import { packageinclusion } from './packageInclusion.entitry';
 
@@ -53,16 +49,15 @@ export class tourpackage {
   @Column({ default: true })
   Showpackage: boolean;
 
-
   @OneToOne(() => image)
-  @JoinColumn({name:"cartImage"})
-  cartimage:image;
+  @JoinColumn({ name: 'cartImage' })
+  cartimage: image;
 
-  @OneToOne(()=>packageinclusion)
+  @OneToOne(() => packageinclusion)
   @JoinColumn()
-  PackageInclusions:packageinclusion
+  PackageInclusions: packageinclusion;
 
-  @OneToOne(()=>packageincluded)
-  @JoinColumn({name:"package_included"})
-  packageincluded:packageincluded;
+  @OneToOne(() => packageincluded)
+  @JoinColumn({ name: 'package_included' })
+  packageincluded: packageincluded;
 }

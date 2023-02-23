@@ -15,7 +15,6 @@ export class CreateTourPackageDto {
     PackageVisitedPlace:string
     PackageHighlight:string
     PackageTourPlan:string
-    PackageInclusion:string
     PackageExclusion:string
     PackageBookingPolicy:string
     PackageRefundPolicy:string

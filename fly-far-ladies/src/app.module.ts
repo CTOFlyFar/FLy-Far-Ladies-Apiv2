@@ -9,13 +9,10 @@ import { TourpackagesModule } from './tourpackages/tourpackages.module';
 import { ImageModule } from './image/image.module';
 import { tourpackage } from './tourpackages/entities/tourpackage.entity';
 import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
+import { packageinclusion } from './tourpackages/entities/packageInclusion.entitry';
 
 @Module({
   imports: [
-   
-    MulterModule.register({
-      dest: './CoverImage',
-    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: '127.0.0.1',
@@ -24,8 +21,8 @@ import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
       password: '',
       database: 'flyfar-ladies',
       autoLoadEntities: true,
-      entities: [tourpackage,image, packageincluded],
-      synchronize:true,
+      entities: [tourpackage, image, packageincluded, packageinclusion],
+      synchronize: true,
     }),
     TourpackagesModule,
     UsersModule,
