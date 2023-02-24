@@ -28,6 +28,7 @@ import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/f
 import { diskStorage } from 'multer';
 import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
+import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -49,7 +50,7 @@ export class TourpackagesController {
     );
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: 'Tour Package added successfully', TourPackage });
+      .json({ message: 'Travel Package added successfully', TourPackage });
   }
 
   @Get('AllPackages')
@@ -98,16 +99,9 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const deletepackage = await this.tourpackagesService.remove(+id);
-    if (!deletepackage) {
-      throw new HttpException(
-        `TourPackage not found with this = ${id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const deletePackage = await this.tourpackagesService.remove(+id);
     return res.status(HttpStatus.OK).json({
       message: `Tour Package Id=${id} has deleted successfully`,
-      deletepackage,
     });
   }
 
@@ -198,6 +192,23 @@ export class TourpackagesController {
     );
     return res.status(HttpStatus.OK).json({
       packageincluded,
+      message: 'travel package Inlclusions Iteam Added',
+    });
+  }
+
+  @Post(':id/AddTourPackagePlan')
+  addTourPackagePlan(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() tourpackagePlandto: CreateTourPackagePlanDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const tourpackageplan = this.tourpackagesService.AddTourpackagePlan(
+      id,
+      tourpackagePlandto,
+    );
+    return res.status(HttpStatus.OK).json({
+      tourpackageplan,
       message: 'travel package Inlclusions Iteam Added',
     });
   }

@@ -6,9 +6,10 @@ import { tourpackage } from './entities/tourpackage.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { packageincluded } from './entities/PackageInclude.entity';
 import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
-
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 import { packageinclusion } from './entities/packageInclusion.entitry';
+import { tourpackageplan } from './entities/tourpackageplan.entity';
+import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 
 @Injectable()
 export class TourpackagesService {
@@ -19,6 +20,8 @@ export class TourpackagesService {
     private packageIncludeRepo: Repository<packageincluded>,
     @InjectRepository(packageinclusion)
     private packageInclusionRepo: Repository<packageinclusion>,
+    @InjectRepository(tourpackageplan)
+    private tourpackagePanRepo: Repository<tourpackageplan>,
   ) {}
 
   async create(createTourpackageDto: CreateTourPackageDto) {
@@ -35,18 +38,19 @@ export class TourpackagesService {
         packageincluded: true,
         cartimage: true,
         PackageInclusions: true,
+        tourpackageplans: true,
       },
     });
   }
 
   async findOne(Id: number) {
-    const tarvelpackage= await this.travelPackageRepo.findOneBy({ Id });
-      if (!tarvelpackage) {
-        throw new HttpException(
-          `TourPackage not found with this id=${Id}`,
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+    const tarvelpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!tarvelpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
@@ -57,13 +61,13 @@ export class TourpackagesService {
   }
 
   async remove(Id: number) {
-    const deletepackage= await this.travelPackageRepo.delete(Id);
-      if (!deletepackage) {
-        throw new HttpException(
-          `TourPackage not found with this id=${Id}`,
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+    const deletepackage = await this.travelPackageRepo.delete(Id);
+    if (!deletepackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async AddpackageIncluded(
@@ -94,13 +98,31 @@ export class TourpackagesService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const newInclusions = this.packageInclusionRepo.create(
-      PackgeinclusionsDto,
-    );
+    const newInclusions = this.packageInclusionRepo.create(PackgeinclusionsDto);
     const savepackageinclusion = await this.packageInclusionRepo.save(
       newInclusions,
     );
     Tourpackage.PackageInclusions = savepackageinclusion;
+    return await this.travelPackageRepo.save(Tourpackage);
+  }
+
+  async AddTourpackagePlan(
+    Id: number,
+    tourpackageplandto: CreateTourPackagePlanDto,
+  ) {
+    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!Tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createpackageplan =
+      this.tourpackagePanRepo.create(tourpackageplandto);
+    const savenewpackageplan = await this.tourpackagePanRepo.save(
+      createpackageplan,
+    );
+    Tourpackage.tourpackageplans = savenewpackageplan;
     return await this.travelPackageRepo.save(Tourpackage);
   }
 }

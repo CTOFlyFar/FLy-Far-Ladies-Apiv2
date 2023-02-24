@@ -4,12 +4,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MulterModule } from '@nestjs/platform-express/multer';
 import { TourpackagesModule } from './tourpackages/tourpackages.module';
 import { ImageModule } from './image/image.module';
 import { tourpackage } from './tourpackages/entities/tourpackage.entity';
 import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
 import { packageinclusion } from './tourpackages/entities/packageInclusion.entitry';
+import { tourpackageplan } from './tourpackages/entities/tourpackageplan.entity';
 
 @Module({
   imports: [
@@ -21,7 +21,13 @@ import { packageinclusion } from './tourpackages/entities/packageInclusion.entit
       password: '',
       database: 'flyfar-ladies',
       autoLoadEntities: true,
-      entities: [tourpackage, image, packageincluded, packageinclusion],
+      entities: [
+        tourpackage,
+        image,
+        packageincluded,
+        packageinclusion,
+        tourpackageplan,
+      ],
       synchronize: true,
     }),
     TourpackagesModule,
@@ -31,4 +37,4 @@ import { packageinclusion } from './tourpackages/entities/packageInclusion.entit
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {};

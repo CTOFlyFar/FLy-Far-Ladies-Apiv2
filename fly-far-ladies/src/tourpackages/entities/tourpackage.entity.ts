@@ -3,6 +3,7 @@ import { image } from 'src/image/entities/image.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { packageincluded } from './PackageInclude.entity';
 import { packageinclusion } from './packageInclusion.entitry';
+import { tourpackageplan } from './tourpackageplan.entity';
 
 @Entity()
 export class tourpackage {
@@ -46,6 +47,7 @@ export class tourpackage {
   AlbumTitle: string;
   @Column()
   AlbumImage: string;
+
   @Column({ default: true })
   Showpackage: boolean;
 
@@ -60,4 +62,8 @@ export class tourpackage {
   @OneToOne(() => packageincluded)
   @JoinColumn({ name: 'package_included' })
   packageincluded: packageincluded;
+
+  @OneToOne(() => tourpackageplan)
+  @JoinColumn({ name: 'Tour_package_Plan' })
+  tourpackageplans: tourpackageplan;
 }
