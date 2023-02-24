@@ -10,6 +10,8 @@ import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 import { packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
+import { packageexcluions } from './entities/packageexclsuions.entity';
+import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 
 @Injectable()
 export class TourpackagesService {
@@ -22,6 +24,8 @@ export class TourpackagesService {
     private packageInclusionRepo: Repository<packageinclusion>,
     @InjectRepository(tourpackageplan)
     private tourpackagePanRepo: Repository<tourpackageplan>,
+    @InjectRepository(packageexcluions)
+    private packageexcluionsRepo: Repository<packageexcluions>,
   ) {}
 
   async create(createTourpackageDto: CreateTourPackageDto) {
@@ -39,6 +43,7 @@ export class TourpackagesService {
         cartimage: true,
         PackageInclusions: true,
         tourpackageplans: true,
+        packageExcluions: true,
       },
     });
   }
@@ -123,6 +128,26 @@ export class TourpackagesService {
       createpackageplan,
     );
     Tourpackage.tourpackageplans = savenewpackageplan;
+    return await this.travelPackageRepo.save(Tourpackage);
+  }
+
+  async AddpackageExclsuions(
+    Id: number,
+    packageexclusionsdto: CreatepackageExclsuionsDto,
+  ) {
+    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!Tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createpackageplan =
+      this.packageexcluionsRepo.create(packageexclusionsdto);
+    const savenewpackageplan = await this.packageexcluionsRepo.save(
+      createpackageplan,
+    );
+    Tourpackage.packageExcluions = savenewpackageplan;
     return await this.travelPackageRepo.save(Tourpackage);
   }
 }

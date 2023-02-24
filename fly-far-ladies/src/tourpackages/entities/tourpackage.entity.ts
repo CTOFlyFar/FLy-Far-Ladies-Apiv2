@@ -4,6 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { packageincluded } from './PackageInclude.entity';
 import { packageinclusion } from './packageInclusion.entitry';
 import { tourpackageplan } from './tourpackageplan.entity';
+import { packageexcluions } from './packageexclsuions.entity';
 
 @Entity()
 export class tourpackage {
@@ -35,8 +36,6 @@ export class tourpackage {
   PackageVisitedPlace: string;
   @Column('text')
   PackageHighlight: string;
-  @Column('text')
-  PackageTourPlan: string;
   @Column()
   PackageExclusion: string;
   @Column('text')
@@ -66,4 +65,8 @@ export class tourpackage {
   @OneToOne(() => tourpackageplan)
   @JoinColumn({ name: 'Tour_package_Plan' })
   tourpackageplans: tourpackageplan;
+
+  @OneToOne(() => packageexcluions)
+  @JoinColumn({name: 'Tour_package_Exclusions'})
+  packageExcluions: packageexcluions;
 }

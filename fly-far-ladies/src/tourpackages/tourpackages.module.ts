@@ -8,8 +8,9 @@ import { image } from 'src/image/entities/image.entity';
 import { packageincluded } from './entities/PackageInclude.entity';
 import { packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
+import { packageexcluions } from './entities/packageexclsuions.entity';
 @Module({
-  imports:[TypeOrmModule.forFeature([tourpackage,image, packageincluded, packageinclusion, tourpackageplan])],
+  imports:[TypeOrmModule.forFeature([tourpackage,image, packageincluded, packageinclusion, tourpackageplan, packageexcluions])],
   controllers: [TourpackagesController],
   providers: [TourpackagesService]
   

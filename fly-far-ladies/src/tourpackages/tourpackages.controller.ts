@@ -1,3 +1,5 @@
+import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
+import { packageexcluions } from './entities/packageexclsuions.entity';
 import { tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
 
 import {
@@ -209,7 +211,24 @@ export class TourpackagesController {
     );
     return res.status(HttpStatus.OK).json({
       tourpackageplan,
-      message: 'travel package Inlclusions Iteam Added',
+      message: 'travel package plan added Iteam Added',
+    });
+  }
+
+  @Post(':id/AddTourPackageExclusions')
+  addTourPackageExclusions(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() packageexcluionsdto: CreatepackageExclsuionsDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const tourpackageplan = this.tourpackagesService.AddpackageExclsuions(
+      id,
+      packageexcluionsdto,
+    );
+    return res.status(HttpStatus.OK).json({
+      tourpackageplan,
+      message: 'travel package plan added Iteam Added',
     });
   }
 }
