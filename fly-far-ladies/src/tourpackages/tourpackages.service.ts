@@ -1,3 +1,4 @@
+import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
@@ -12,6 +13,7 @@ import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
+import { packagehighlight } from './entities/packagehighlight.entity';
 
 @Injectable()
 export class TourpackagesService {
@@ -26,7 +28,9 @@ export class TourpackagesService {
     private tourpackagePanRepo: Repository<tourpackageplan>,
     @InjectRepository(packageexcluions)
     private packageexcluionsRepo: Repository<packageexcluions>,
-  ) {}
+    @InjectRepository(packagehighlight)
+    private packageHighlightRepo: Repository<packagehighlight>,
+  ) { }
 
   async create(createTourpackageDto: CreateTourPackageDto) {
     const travelpackage = await this.travelPackageRepo.create(
@@ -44,6 +48,7 @@ export class TourpackagesService {
         PackageInclusions: true,
         tourpackageplans: true,
         packageExcluions: true,
+        PackageHighlights: true,
       },
     });
   }
@@ -148,6 +153,26 @@ export class TourpackagesService {
       createpackageplan,
     );
     Tourpackage.packageExcluions = savenewpackageplan;
+    return await this.travelPackageRepo.save(Tourpackage);
+  }
+
+  async AddPackageHighlight(
+    Id: number,
+    packagehighlightdto: CreatePackageHighlightDto,
+  ) {
+    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!Tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createpackageHightlight =
+      this.packageHighlightRepo.create(packagehighlightdto);
+    const savenewpackageHighlight = await this.packageHighlightRepo.save(
+      createpackageHightlight,
+    );
+    Tourpackage.PackageHighlights = savenewpackageHighlight;
     return await this.travelPackageRepo.save(Tourpackage);
   }
 }

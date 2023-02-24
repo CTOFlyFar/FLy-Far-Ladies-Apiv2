@@ -1,6 +1,5 @@
-
 import { tourpackage } from './entities/tourpackage.entity';
-import { Module} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TourpackagesService } from './tourpackages.service';
 import { TourpackagesController } from './tourpackages.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,10 +8,20 @@ import { packageincluded } from './entities/PackageInclude.entity';
 import { packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { packageexcluions } from './entities/packageexclsuions.entity';
+import { packagehighlight } from './entities/packagehighlight.entity';
 @Module({
-  imports:[TypeOrmModule.forFeature([tourpackage,image, packageincluded, packageinclusion, tourpackageplan, packageexcluions])],
+  imports: [
+    TypeOrmModule.forFeature([
+      tourpackage,
+      image,
+      packageincluded,
+      packageinclusion,
+      tourpackageplan,
+      packageexcluions,
+      packagehighlight,
+    ]),
+  ],
   controllers: [TourpackagesController],
-  providers: [TourpackagesService]
-  
+  providers: [TourpackagesService],
 })
 export class TourpackagesModule {}

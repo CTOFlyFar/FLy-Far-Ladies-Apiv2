@@ -1,3 +1,4 @@
+import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
@@ -39,7 +40,7 @@ export class TourpackagesController {
     @InjectRepository(tourpackage)
     private travelPackageRepo: Repository<tourpackage>,
     private readonly tourpackagesService: TourpackagesService,
-  ) {}
+  ) { }
 
   @Post('AddTravelPackage')
   async create(
@@ -229,6 +230,23 @@ export class TourpackagesController {
     return res.status(HttpStatus.OK).json({
       tourpackageplan,
       message: 'travel package plan added Iteam Added',
+    });
+  }
+
+
+  @Post(':id/AddTourPackageHighlight')
+  addTourPackageHighlight(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() packageHighlightdto: CreatePackageHighlightDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const tourpackageplan = this.tourpackagesService.AddPackageHighlight(
+      id,
+      packageHighlightdto,
+    );
+    return res.status(HttpStatus.OK).json({
+      message: 'travel package Highlight added',
     });
   }
 }
