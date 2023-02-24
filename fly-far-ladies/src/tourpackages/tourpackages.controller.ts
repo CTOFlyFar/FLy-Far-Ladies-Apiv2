@@ -1,3 +1,4 @@
+import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { packageexcluions } from './entities/packageexclsuions.entity';
@@ -32,6 +33,7 @@ import { diskStorage } from 'multer';
 import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
+import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -241,12 +243,29 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const tourpackageplan = this.tourpackagesService.AddPackageHighlight(
+    const tourpackagehighlight = this.tourpackagesService.AddPackageHighlight(
       id,
       packageHighlightdto,
     );
     return res.status(HttpStatus.OK).json({
-      message: 'travel package Highlight added',
+      message: 'travel package Highlight added', tourpackagehighlight
+    });
+  }
+
+
+  @Post(':id/AddBookingPolicy')
+  addTourPackageBookingPolicy(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() bookingpolicydto: CreateBookingPolicyDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const tourpackageplan = this.tourpackagesService.AddPackageBookingPolicy(
+      id,
+      bookingpolicydto,
+    );
+    return res.status(HttpStatus.OK).json({
+      message: 'travel package booking policy added', tourpackageplan
     });
   }
 }

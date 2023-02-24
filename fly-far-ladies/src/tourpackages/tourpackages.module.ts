@@ -9,6 +9,7 @@ import { packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { packagehighlight } from './entities/packagehighlight.entity';
+import { bookingpolicy } from './entities/bookingpolicy.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -19,9 +20,10 @@ import { packagehighlight } from './entities/packagehighlight.entity';
       tourpackageplan,
       packageexcluions,
       packagehighlight,
+      bookingpolicy,
     ]),
   ],
   controllers: [TourpackagesController],
   providers: [TourpackagesService],
 })
-export class TourpackagesModule {}
+export class TourpackagesModule { }

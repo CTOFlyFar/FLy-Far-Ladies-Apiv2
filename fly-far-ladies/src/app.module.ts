@@ -12,6 +12,7 @@ import { packageinclusion } from './tourpackages/entities/packageInclusion.entit
 import { tourpackageplan } from './tourpackages/entities/tourpackageplan.entity';
 import { packageexcluions } from './tourpackages/entities/packageexclsuions.entity';
 import { packagehighlight } from './tourpackages/entities/packagehighlight.entity';
+import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { packagehighlight } from './tourpackages/entities/packagehighlight.entit
         tourpackageplan,
         packageexcluions,
         packagehighlight,
+        bookingpolicy,
       ],
       synchronize: true,
     }),
@@ -42,4 +44,4 @@ import { packagehighlight } from './tourpackages/entities/packagehighlight.entit
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

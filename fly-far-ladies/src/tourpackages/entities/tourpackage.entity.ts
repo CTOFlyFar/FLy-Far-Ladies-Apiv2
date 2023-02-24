@@ -6,6 +6,7 @@ import { packageinclusion } from './packageInclusion.entitry';
 import { tourpackageplan } from './tourpackageplan.entity';
 import { packageexcluions } from './packageexclsuions.entity';
 import { packagehighlight } from './packagehighlight.entity';
+import { bookingpolicy } from './bookingpolicy.entity';
 
 @Entity()
 export class tourpackage {
@@ -35,9 +36,6 @@ export class tourpackage {
   PackageOverview: string;
   @Column('text')
   PackageVisitedPlace: string;
- 
-  @Column('text')
-  PackageBookingPolicy: string;
   @Column('text')
   PackageRefundPolicy: string;
   @Column()
@@ -64,12 +62,15 @@ export class tourpackage {
   tourpackageplans: tourpackageplan;
 
   @OneToOne(() => packageexcluions)
-  @JoinColumn({name: 'Tour_package_Exclusions'})
+  @JoinColumn({ name: 'Tour_package_Exclusions' })
   packageExcluions: packageexcluions;
 
   @OneToOne(() => packagehighlight)
   @JoinColumn({ name: 'Tour_package_Hightlights' })
   PackageHighlights: packagehighlight;
 
-  
+  @OneToOne(() => bookingpolicy)
+  @JoinColumn({ name: 'Tour_package_BookingPolicy' })
+  BookingPolicys: bookingpolicy;
+
 }

@@ -1,3 +1,4 @@
+import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -14,6 +15,7 @@ import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { packagehighlight } from './entities/packagehighlight.entity';
+import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 
 @Injectable()
 export class TourpackagesService {
@@ -30,6 +32,8 @@ export class TourpackagesService {
     private packageexcluionsRepo: Repository<packageexcluions>,
     @InjectRepository(packagehighlight)
     private packageHighlightRepo: Repository<packagehighlight>,
+    @InjectRepository(bookingpolicy)
+    private bookingPolicyRepo: Repository<bookingpolicy>,
   ) { }
 
   async create(createTourpackageDto: CreateTourPackageDto) {
@@ -49,6 +53,7 @@ export class TourpackagesService {
         tourpackageplans: true,
         packageExcluions: true,
         PackageHighlights: true,
+        BookingPolicys: true,
       },
     });
   }
@@ -173,6 +178,25 @@ export class TourpackagesService {
       createpackageHightlight,
     );
     Tourpackage.PackageHighlights = savenewpackageHighlight;
+    return await this.travelPackageRepo.save(Tourpackage);
+  }
+
+  async AddPackageBookingPolicy(
+    Id: number,
+    bookingpolicydto: CreateBookingPolicyDto,
+  ) {
+    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!Tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createbookingpolicy = this.bookingPolicyRepo.create(bookingpolicydto);
+    const newbookingpolicy = await this.bookingPolicyRepo.save(
+      createbookingpolicy,
+    );
+    Tourpackage.BookingPolicys = newbookingpolicy;
     return await this.travelPackageRepo.save(Tourpackage);
   }
 }
