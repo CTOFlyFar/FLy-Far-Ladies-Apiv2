@@ -16,6 +16,8 @@ import { packageexcluions } from './entities/packageexclsuions.entity';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { packagehighlight } from './entities/packagehighlight.entity';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
+import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
+import { refundpolicy } from './entities/refundpolicy.entity';
 
 @Injectable()
 export class TourpackagesService {
@@ -34,6 +36,8 @@ export class TourpackagesService {
     private packageHighlightRepo: Repository<packagehighlight>,
     @InjectRepository(bookingpolicy)
     private bookingPolicyRepo: Repository<bookingpolicy>,
+    @InjectRepository(refundpolicy)
+    private refundPolicyRepo: Repository<refundpolicy>,
   ) { }
 
   async create(createTourpackageDto: CreateTourPackageDto) {
@@ -59,7 +63,18 @@ export class TourpackagesService {
   }
 
   async findOne(Id: number) {
-    const tarvelpackage = await this.travelPackageRepo.findOneBy({ Id });
+    const tarvelpackage = await this.travelPackageRepo.find({
+      relations: {
+        packageincluded: true,
+        cartimage: true,
+        PackageInclusions: true,
+        tourpackageplans: true,
+        packageExcluions: true,
+        PackageHighlights: true,
+        BookingPolicys: true,
+        refundpolicys: true,
+      },
+    });
     if (!tarvelpackage) {
       throw new HttpException(
         `TourPackage not found with this id=${Id}`,
@@ -197,6 +212,25 @@ export class TourpackagesService {
       createbookingpolicy,
     );
     Tourpackage.BookingPolicys = newbookingpolicy;
+    return await this.travelPackageRepo.save(Tourpackage);
+  }
+
+  async AddRefundPolicy(
+    Id: number,
+    refundpolicydto: createRefundPolicyDto,
+  ) {
+    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!Tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createrefundpolicy = this.refundPolicyRepo.create(refundpolicydto);
+    const newrefundpolicy = await this.refundPolicyRepo.save(
+      createrefundpolicy,
+    );
+    Tourpackage.refundpolicys = newrefundpolicy;
     return await this.travelPackageRepo.save(Tourpackage);
   }
 }

@@ -10,6 +10,7 @@ import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { packagehighlight } from './entities/packagehighlight.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
+import { refundpolicy } from './entities/refundpolicy.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -21,6 +22,7 @@ import { bookingpolicy } from './entities/bookingpolicy.entity';
       packageexcluions,
       packagehighlight,
       bookingpolicy,
+      refundpolicy,
     ]),
   ],
   controllers: [TourpackagesController],

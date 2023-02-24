@@ -7,6 +7,7 @@ import { tourpackageplan } from './tourpackageplan.entity';
 import { packageexcluions } from './packageexclsuions.entity';
 import { packagehighlight } from './packagehighlight.entity';
 import { bookingpolicy } from './bookingpolicy.entity';
+import { refundpolicy } from './refundpolicy.entity';
 
 @Entity()
 export class tourpackage {
@@ -45,32 +46,37 @@ export class tourpackage {
   @Column({ default: true })
   Showpackage: boolean;
 
-  @OneToOne(() => image)
+  @OneToOne(() => image, { cascade: true })
   @JoinColumn({ name: 'cartImage' })
   cartimage: image;
 
-  @OneToOne(() => packageinclusion)
+  @OneToOne(() => packageinclusion, { cascade: true })
   @JoinColumn()
   PackageInclusions: packageinclusion;
 
-  @OneToOne(() => packageincluded)
+  @OneToOne(() => packageincluded, { cascade: true })
   @JoinColumn({ name: 'package_included' })
   packageincluded: packageincluded;
 
-  @OneToOne(() => tourpackageplan)
+  @OneToOne(() => tourpackageplan, { cascade: true })
   @JoinColumn({ name: 'Tour_package_Plan' })
   tourpackageplans: tourpackageplan;
 
-  @OneToOne(() => packageexcluions)
+  @OneToOne(() => packageexcluions, { cascade: true })
   @JoinColumn({ name: 'Tour_package_Exclusions' })
   packageExcluions: packageexcluions;
 
-  @OneToOne(() => packagehighlight)
+  @OneToOne(() => packagehighlight, { cascade: true })
   @JoinColumn({ name: 'Tour_package_Hightlights' })
   PackageHighlights: packagehighlight;
 
-  @OneToOne(() => bookingpolicy)
+  @OneToOne(() => bookingpolicy, { cascade: true })
   @JoinColumn({ name: 'Tour_package_BookingPolicy' })
   BookingPolicys: bookingpolicy;
+
+
+  @OneToOne(() =>refundpolicy, { cascade: true })
+  @JoinColumn({ name: 'Tour_package_refundpolicy' })
+  refundpolicys: refundpolicy;
 
 }

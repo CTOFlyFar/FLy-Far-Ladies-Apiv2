@@ -1,3 +1,4 @@
+import { refundpolicy } from './entities/refundpolicy.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
@@ -34,6 +35,7 @@ import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
+import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -266,6 +268,23 @@ export class TourpackagesController {
     );
     return res.status(HttpStatus.OK).json({
       message: 'travel package booking policy added', tourpackageplan
+    });
+  }
+
+
+  @Post(':id/AddrefundPolicy')
+  addrefundPolicy(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() refundpolicydto: createRefundPolicyDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const tourpackageplan = this.tourpackagesService.AddRefundPolicy(
+      id,
+      refundpolicydto,
+    );
+    return res.status(HttpStatus.OK).json({
+      message: 'travel package refundpolicy policy added', tourpackageplan
     });
   }
 }
