@@ -64,6 +64,7 @@ export class TourpackagesService {
 
   async findOne(Id: number) {
     const tarvelpackage = await this.travelPackageRepo.find({
+      where: { Id },
       relations: {
         packageincluded: true,
         cartimage: true,
@@ -72,9 +73,9 @@ export class TourpackagesService {
         packageExcluions: true,
         PackageHighlights: true,
         BookingPolicys: true,
-        refundpolicys: true,
       },
-    });
+    }
+    );
     if (!tarvelpackage) {
       throw new HttpException(
         `TourPackage not found with this id=${Id}`,

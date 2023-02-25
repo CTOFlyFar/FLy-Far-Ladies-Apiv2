@@ -8,6 +8,8 @@ import { image } from './entities/image.entity';
 @Injectable()
 export class ImageService {
   constructor(@InjectRepository(image) private imageRepo: Repository<image>){}
+
+  
   findAll() {
     return this.imageRepo.find({});
   }

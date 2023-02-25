@@ -4,20 +4,15 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class image {
   @PrimaryGeneratedColumn()
   Id: number;
-  @Column()
-  ImageTitle: string;
-  @Column()
-  fieldname: string;
-  @Column()
-  originalname: string;
-  @Column()
-  destination: string;
-  @Column()
-  filename: string;
-  @Column()
-  path: string;
-  @Column()
-  size: string;
+
+  @Column('json')
+  AlbumImage: Array<{
+    originalname: string;
+    mimetype: string;
+    filename: string;
+    path: string;
+    size: number;
+  }>
   // @ManyToOne(()=>tourpackage,(tourpackage)=>tourpackage.images)
   // tourpackages:tourpackage;
 }

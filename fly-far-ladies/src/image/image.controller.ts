@@ -15,10 +15,10 @@ import { image } from './entities/image.entity';
 @Controller('images')
 export class ImageController {
   constructor(@InjectRepository(image) private imageRepo: Repository<image>,
-     private readonly imageService: ImageService) {}
+    private readonly imageService: ImageService) { }
 
   @Post('AddImage')
-  @UseInterceptors(FilesInterceptor('images',20,{
+  @UseInterceptors(FilesInterceptor('images', 20, {
     storage: diskStorage({
       destination: './Images',
       filename: (req, image, callback) => {
@@ -36,25 +36,40 @@ export class ImageController {
         fileType: /(jpg|jpeg|png|gif)$/,
       })
       .addMaxSizeValidator({
-        maxSize: 1024*1024*6
+        maxSize: 1024 * 1024 * 6
       })
       .build({
         errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
       }),
   )
-  files:Express.Multer.File[], @Req() req: Request, @Res() res: Response,){ 
-    for(const file of files){
-      const  newimage= new image();
-      newimage.filename = file.filename
-      newimage.destination = file.destination;
-      newimage.fieldname = file.fieldname;
-      newimage.path =file.path;
-      newimage.originalname =file.originalname;
-      await this.imageRepo.save(newimage);
-      console.log(newimage);
-      
-    }
-    return res.status(HttpStatus.OK).send({message:"Image  Added Successfully"})
+  files: Express.Multer.File[], @Req() req: Request, @Res() res: Response,) {
+    // for(const file of files){
+    //   const  newimage= new image();
+    //   newimage.filename = file.filename
+    //   newimage.destination = file.destination;
+    //   newimage.fieldname = file.fieldname;
+    //   newimage.path =file.path;
+    //   newimage.originalname =file.originalname;
+    //   await this.imageRepo.save(newimage);
+    //   console.log(newimage);
+
+    // }
+    const fileArray = [];
+    files.forEach((file) => {
+      fileArray.push({
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        filename: file.filename,
+        path: file.path,
+        size: file.size,
+      });
+    });
+
+    const upload = new image;
+    upload.AlbumImage = fileArray;
+    await this.imageRepo.save(upload);
+
+    return res.status(HttpStatus.OK).send({ message: "Image  Added Successfully" })
   }
 
   @Get('AllImage')
@@ -79,7 +94,7 @@ export class ImageController {
   @Get('coverimage/:filename')
   getFile(@Param('filename') filename, @Res() res: Response) {
     return of(res.sendFile(join(process.cwd(), 'Images/' + filename)));
-   
+
   }
 
 }

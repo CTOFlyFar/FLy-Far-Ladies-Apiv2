@@ -41,8 +41,8 @@ export class tourpackage {
   PackageRefundPolicy: string;
   @Column()
   AlbumTitle: string;
-  @Column()
-  AlbumImage: string;
+  @Column('json')
+
   @Column({ default: true })
   Showpackage: boolean;
 
@@ -75,7 +75,7 @@ export class tourpackage {
   BookingPolicys: bookingpolicy;
 
 
-  @OneToOne(() =>refundpolicy, { cascade: true })
+  @OneToOne(() => refundpolicy, { cascade: true })
   @JoinColumn({ name: 'Tour_package_refundpolicy' })
   refundpolicys: refundpolicy;
 
