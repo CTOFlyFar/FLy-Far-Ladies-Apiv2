@@ -64,11 +64,10 @@ export class ImageController {
         size: file.size,
       });
     });
-
+    
     const upload = new image;
     upload.AlbumImage = fileArray;
     await this.imageRepo.save(upload);
-
     return res.status(HttpStatus.OK).send({ message: "Image  Added Successfully" })
   }
 
@@ -91,9 +90,9 @@ export class ImageController {
     return this.imageService.remove(+id);
   }
 
-  @Get('coverimage/:filename')
-  getFile(@Param('filename') filename, @Res() res: Response) {
-    return of(res.sendFile(join(process.cwd(), 'Images/' + filename)));
+  @Get(':Id')
+  getFile(@Param('Id') Id, @Res() res: Response) {
+    return of(res.sendFile(join(process.cwd(), 'Images/' + Id)));
 
   }
 

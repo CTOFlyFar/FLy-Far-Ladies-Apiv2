@@ -11,16 +11,16 @@ export class CreateTourPackageDto {
     Availability:boolean
     TotalDuration:string
     PackageOverview:string
-    PackageIncluded:string
-    PackageVisitedPlace:string
-    PackageHighlight:string
-    PackageTourPlan:string
-    PackageExclusion:string
-    PackageBookingPolicy:string
-    PackageRefundPolicy:string
-    AlbumTitle:string
-    AlbumImage:string
-    Showpackage:boolean
+    // PackageIncluded:string
+    // PackageVisitedPlace:string
+    // PackageHighlight:string
+    // PackageTourPlan:string
+    // PackageExclusion:string
+    // PackageBookingPolicy:string
+    // PackageRefundPolicy:string
+    // AlbumTitle:string
+    // AlbumImage:string
+    // Showpackage:boolean
 }
 
 // Id:number

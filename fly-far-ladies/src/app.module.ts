@@ -1,5 +1,7 @@
+import { CartImage } from './tourpackages/entities/cartimage.entity';
+import { AlbumImage } from './tourpackages/entities/albumimage.entity';
+
 import { refundpolicy } from './tourpackages/entities/refundpolicy.entity';
-import { image } from './image/entities/image.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -27,16 +29,17 @@ import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
       autoLoadEntities: true,
       entities: [
         tourpackage,
-        image,
+        AlbumImage,
+        CartImage,
+        packageexcluions,
         packageincluded,
         packageinclusion,
         tourpackageplan,
-        packageexcluions,
         packagehighlight,
         bookingpolicy,
         refundpolicy,
       ],
-      synchronize: true,
+      synchronize:true,
     }),
     TourpackagesModule,
     UsersModule,
