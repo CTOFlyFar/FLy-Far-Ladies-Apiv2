@@ -1,4 +1,4 @@
-import { tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
+import { Tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 // import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,29 +8,30 @@ import { Repository } from 'typeorm';
 
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { packageincluded } from './entities/PackageInclude.entity';
-// import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
-// import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
-import { packageinclusion } from './entities/packageInclusion.entitry';
+
+import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
+import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
-// import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
+import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { packageexcluions } from './entities/packageexclsuions.entity';
-// import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
-import { packagehighlight } from './entities/packagehighlight.entity';
-// import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
-// import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
-import { refundpolicy } from './entities/refundpolicy.entity';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
+import { packagehighlight } from './entities/packagehighlight.entity';
+import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
+import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
+import { refundpolicy } from './entities/refundpolicy.entity';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
+import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
+import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 
 @Injectable()
 export class TourpackagesService {
   constructor(
-    @InjectRepository(tourpackage)
-    private travelPackageRepo: Repository<tourpackage>,
+    @InjectRepository(Tourpackage)
+    private travelPackageRepo: Repository<Tourpackage>,
     @InjectRepository(packageincluded)
     private packageIncludeRepo: Repository<packageincluded>,
-    @InjectRepository(packageinclusion)
-    private packageInclusionRepo: Repository<packageinclusion>,
+    @InjectRepository(Packageinclusion)
+    private packageInclusionRepo: Repository<Packageinclusion>,
     @InjectRepository(tourpackageplan)
     private tourpackagePanRepo: Repository<tourpackageplan>,
     @InjectRepository(packageexcluions)
@@ -62,14 +63,14 @@ export class TourpackagesService {
         // tourpackageplans: true,
 
         // PackageHighlights: true,
-        // BookingPolicys: true,
+        policydescription: true
       },
     });
   }
 
-  async findOne(Id:number){
+  async findOne(Id: number) {
     const tarvelpackage = await this.travelPackageRepo.find({
-      where: { Id},
+      where: { Id },
       relations: {
         // packageincluded: true,
         cartimages: true,
@@ -83,16 +84,16 @@ export class TourpackagesService {
       },
     })
     return tarvelpackage;
-    // );
+
 
   }
 
-  // async update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
-  //   return await this.travelPackageRepo.update(
-  //     { Id },
-  //     { ...updateTourpackageDto },
-  //   );
-  // }
+  async update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
+    return await this.travelPackageRepo.update(
+      { Id },
+      { ...updateTourpackageDto },
+    );
+  }
 
   async remove(Id: number) {
     const deletepackage = await this.travelPackageRepo.delete(Id);
@@ -106,20 +107,20 @@ export class TourpackagesService {
 
 
 
-  // async createbookingPolicy(Id:number, CreateBookingPolicyDto:CreateBookingPolicyDto):Promise<bookingpolicy>{
-  //   const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-  //   if (!Tourpackage) {
-  //     throw new HttpException(
-  //       "TourPackage not found, cann't add cover image",
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  //   const creatpolicy = await this.bookingPolicyRepo.create(CreateBookingPolicyDto);
-  //   const createdpolicy= await this.bookingPolicyRepo.save(creatpolicy)
-  //   return createdpolicy;
+  async createbookingPolicy(Id: number, BookingPolicyDto: CreateBookingPolicyDto) {
+    const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const creatpolicy = await this.bookingPolicyRepo.create({ ...BookingPolicyDto, tourpackage });
+    const createdpolicy = await this.bookingPolicyRepo.save(creatpolicy)
+    return createdpolicy;
 
-  // }
- 
+  }
+
 
   //   async AddpackageIncluded(
   //     Id: number,
@@ -183,41 +184,38 @@ export class TourpackagesService {
     exclusiondto: CreatepackageExclsuionsDto,
   ) {
 
-    const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
     if (!Tourpackage) {
       throw new HttpException(
         "TourPackage not found, cann't add cover image",
         HttpStatus.BAD_REQUEST,
       );
-      }
-      const x= await this.packageexcluionsRepo.create(exclusiondto)
-      const savedata= await this.packageexcluionsRepo.save(x)
-      Tourpackage.exclusions =[savedata]
-     await this.travelPackageRepo.save(Tourpackage)
-
     }
+    const x = await this.packageexcluionsRepo.create({ ...exclusiondto, tourpackage })
+    const savedata = await this.packageexcluionsRepo.save(x)
+    return savedata;
 
   }
 
-  //   async AddPackageHighlight(
-  //     Id: number,
-  //     packagehighlightdto: CreatePackageHighlightDto,
-  //   ) {
-  //     const Tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-  //     if (!Tourpackage) {
-  //       throw new HttpException(
-  //         "TourPackage not found, cann't add cover image",
-  //         HttpStatus.BAD_REQUEST,
-  //       );
-  //     }
-  //     const createpackageHightlight =
-  //       this.packageHighlightRepo.create(packagehighlightdto);
-  //     const savenewpackageHighlight = await this.packageHighlightRepo.save(
-  //       createpackageHightlight,
-  //     );
-  //     Tourpackage.PackageHighlights = savenewpackageHighlight;
-  //     return await this.travelPackageRepo.save(Tourpackage);
-  //   }
+  async AddPackageHighlight(
+    Id: number,
+    packagehighlightdto: CreatePackageHighlightDto,
+  ) {
+    const findtourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!findtourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createHightlight = await
+      this.packageHighlightRepo.create({ ...packagehighlightdto, findtourpackage});
+    const saveHighlight = await this.packageHighlightRepo.save(
+      createHightlight
+    );
+    return saveHighlight;
+
+  }
 
   //   async AddPackageBookingPolicy(
   //     Id: number,
@@ -258,3 +256,4 @@ export class TourpackagesService {
   //   }
   // 
 
+}

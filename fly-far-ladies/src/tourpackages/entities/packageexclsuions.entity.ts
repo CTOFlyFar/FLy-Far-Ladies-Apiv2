@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn,} from 'typeorm';
-import { tourpackage } from './tourpackage.entity';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Tourpackage } from './tourpackage.entity';
 
 
 
@@ -7,15 +7,13 @@ import { tourpackage } from './tourpackage.entity';
 @Entity()
 export class packageexcluions {
   @PrimaryGeneratedColumn()
-  exclusionsId: number;
-  @Column({nullable:false})
-  Id:number
+  Id: number;
   @Column()
-  name:string
+  name: string
   @Column()
   PackageExclusions: string;
-  @ManyToOne(()=>tourpackage, (tourpackages)=>tourpackages.exclusions,{ cascade:true})
-  @JoinColumn({name : 'post_id'})
-  tourpackage:tourpackage;
- 
+  @ManyToOne(() => Tourpackage, (tourpackages) => tourpackages.exclusions, { cascade: true })
+  tourpackage: Tourpackage;
+
 }
+

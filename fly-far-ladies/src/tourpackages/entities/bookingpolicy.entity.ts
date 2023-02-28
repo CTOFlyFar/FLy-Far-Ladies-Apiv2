@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Tourpackage } from './tourpackage.entity';
+
 
 
 
@@ -8,8 +11,9 @@ export class bookingpolicy {
     Id: number
     @Column()
     description:string;
-    @Column({type:'simple-array'})
-    policies:string[];
+
+    @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.policydescription)
+    tourpackage:Tourpackage
    
 }
 

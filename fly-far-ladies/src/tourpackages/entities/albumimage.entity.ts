@@ -1,6 +1,6 @@
 
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { tourpackage } from './tourpackage.entity';
+import { Tourpackage } from './tourpackage.entity';
 
 // import { tourpackage } from './tourpackage.entity';
 
@@ -34,7 +34,7 @@ export class AlbumImage{
    // @Column()
    // size: string
 
-   @OneToOne(() => tourpackage, tourpackage=>tourpackage.albumImages)
-   tourpackage:tourpackage;
+   @OneToOne(() => Tourpackage, tourpackage=>tourpackage.albumImages)
+   tourpackage:Tourpackage;
    
 }
