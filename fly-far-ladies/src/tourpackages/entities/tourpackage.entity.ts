@@ -1,5 +1,5 @@
 
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { AlbumImage } from './albumimage.entity';
 import { CartImage } from './cartimage.entity';
 import { packageexcluions } from './packageexclsuions.entity';
@@ -8,7 +8,7 @@ import { packageexcluions } from './packageexclsuions.entity';
 export class tourpackage {
   @PrimaryGeneratedColumn()
   Id: number;
-  @Column({ unique: true })
+  @Column()
   PkId: string;
   @Column()
   MainTitle: string;
@@ -41,9 +41,13 @@ export class tourpackage {
   @Column()
   AlbumTitle: string;
 
-  @Column('simple-json')
   @Column({ default: true })
   Showpackage: boolean;
+  @Column('simple-array')
+  policies:{
+    name:string
+    description:string
+  }
 
   @OneToOne(() => CartImage, cartimage => cartimage.tourpackage, { onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
@@ -56,10 +60,9 @@ export class tourpackage {
   @JoinColumn()
   albumImages: AlbumImage;
 
-  @OneToOne(() => packageexcluions, exclusion=>exclusion.tourpackage,{ 
-  cascade: true,})
-  @JoinColumn()
-  exclusions: packageexcluions;
+  @OneToMany(() =>packageexcluions, (exclusion)=>exclusion.tourpackage, {eager:true, cascade:false})
+  // @JoinColumn({name:'Id', referencedColumnName:'Id'})
+  exclusions: packageexcluions[];
 
 
 

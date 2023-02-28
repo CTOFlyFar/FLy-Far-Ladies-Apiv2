@@ -1,4 +1,7 @@
+
+
 export class CreatepackageExclsuionsDto {
-  Id: number;
-  PackageExclusions:string
+ Id: number;
+ name:string;
+ PackageExclusions:string;
 }

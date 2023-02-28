@@ -1,6 +1,6 @@
+
 import { CartImage } from './tourpackages/entities/cartimage.entity';
 import { AlbumImage } from './tourpackages/entities/albumimage.entity';
-
 import { refundpolicy } from './tourpackages/entities/refundpolicy.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -15,7 +15,10 @@ import { packageinclusion } from './tourpackages/entities/packageInclusion.entit
 import { tourpackageplan } from './tourpackages/entities/tourpackageplan.entity';
 import { packageexcluions } from './tourpackages/entities/packageexclsuions.entity';
 import { packagehighlight } from './tourpackages/entities/packagehighlight.entity';
-import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
+import { PolicyModule } from './bookingPolicy/policy.module';
+import { BookingPolicy } from './bookingPolicy/entities/policy.entity';
+import { Travelpackage } from './travelpackage/entities/travelpackage.entity';
+import { TravelpackageModule } from './travelpackage/travelpackage.module';
 
 @Module({
   imports: [
@@ -26,7 +29,7 @@ import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
       username: 'root',
       password: '',
       database: 'flyfar-ladies',
-      autoLoadEntities: true,
+      autoLoadEntities:false,
       entities: [
         tourpackage,
         AlbumImage,
@@ -36,14 +39,17 @@ import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
         packageinclusion,
         tourpackageplan,
         packagehighlight,
-        bookingpolicy,
+        BookingPolicy,
         refundpolicy,
+        Travelpackage,
       ],
       synchronize:true,
     }),
     TourpackagesModule,
     UsersModule,
     ImageModule,
+    PolicyModule,
+    TravelpackageModule,
   ],
 
   controllers: [AppController],

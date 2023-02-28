@@ -1,3 +1,5 @@
+import { bookingpolicy } from './entities/bookingpolicy.entity';
+
 
 import { AlbumImage } from './entities/albumimage.entity';
 
@@ -10,7 +12,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+
   Param,
   Delete,
   Req,
@@ -25,7 +27,6 @@ import {
 
 } from '@nestjs/common';
 import { TourpackagesService } from './tourpackages.service';
-import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
 import { Request, Response } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,6 +36,7 @@ import { CartImage } from './entities/cartimage.entity';
 import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
+
 
 // import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 // import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
@@ -47,6 +49,7 @@ export class TourpackagesController {
   constructor(
     @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
     @InjectRepository(CartImage) private cartmageRepo: Repository<CartImage>,
+    @InjectRepository(bookingpolicy) private bookingpolicyRepo: Repository<bookingpolicy>,
     @InjectRepository(tourpackage)
     private travelPackageRepo: Repository<tourpackage>,
     private readonly tourpackagesService: TourpackagesService,
@@ -63,7 +66,7 @@ export class TourpackagesController {
     );
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: 'Travel Package added successfully', TourPackage });
+      .json({ message: 'Travel Package added successfully',TourPackage });
   }
 
   @Get('AllPackages')
@@ -72,8 +75,8 @@ export class TourpackagesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const tourpackage = this.tourpackagesService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    const tourpackage = this.tourpackagesService.findOne(id);
     if (!tourpackage) {
       throw new HttpException(
         `TourPackage not found with this = ${id}`,
@@ -83,28 +86,28 @@ export class TourpackagesController {
     return tourpackage;
   }
 
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateTourpackageDto: UpdateTourpackageDto,
-    req: Request,
-    @Res() res: Response,
-  ) {
-    const updatepackage = await this.tourpackagesService.update(
-      +id,
-      updateTourpackageDto,
-    );
-    if (!updatepackage) {
-      throw new HttpException(
-        `TourPackage not found with this = ${id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return res.status(HttpStatus.OK).json({
-      message: `Tour Package with Id=${id} has updated successfully`,
-      updatepackage,
-    });
-  }
+  // @Patch(':id')
+  // async update(
+  //   @Param('id') id: string,
+  //   @Body() updateTourpackageDto: UpdateTourpackageDto,
+  //   req: Request,
+  //   @Res() res: Response,
+  // ) {
+  //   const updatepackage = await this.tourpackagesService.update(
+  //     +id,
+  //     updateTourpackageDto,
+  //   );
+  //   if (!updatepackage) {
+  //     throw new HttpException(
+  //       `TourPackage not found with this = ${id}`,
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  //   return res.status(HttpStatus.OK).json({
+  //     message: `Tour Package with Id=${id} has updated successfully`,
+  //     updatepackage,
+  //   });
+  // }
 
   @Delete(':id')
   async remove(
@@ -232,6 +235,48 @@ export class TourpackagesController {
 
     }
 
+
+
+    // @Post(':Id/addbookingpolicy')
+    // async createBooking(@Body() @Param('Id', ParseIntPipe) Id: number,  @Req() req: Request,createbookingpolicyDto:CreateBookingPolicyDto,@Res() res: Response){
+    //   const{policies}=createbookingpolicyDto
+
+    //   const creatpolicy= await this.bookingpolicyRepo.create(createbookingpolicyDto)
+    //   await this.bookingpolicyRepo.save(creatpolicy)
+    //   const savepolicy= await this.travelPackageRepo.findOne(Id)
+    //   if (!savepolicy){
+    //     throw new HttpException(
+    //       "Tourpolicy not found, cann't add cover image",
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    //     }
+    //   for(const x of policies){
+    //     savepolicy.policies.push(x); 
+    //   }
+    //   await this.travelPackageRepo.save(savepolicy)
+
+     
+
+    //     return res.status(HttpStatus.OK).send({
+  
+    //             message: 'travel package Inlcluded Iteam Added',
+    //           })
+    //    }
+
+       
+    //     @Body()
+    //     createpackageIncludeDto: createPackageIncludeDto,
+    //     @Req() req: Request,
+    //     @Res() res: Response,
+    //   ) {
+    //     const packageincluded = this.tourpackagesService.AddpackageIncluded(
+    //       id,
+    //       createpackageIncludeDto,
+    //     );
+    //     return res.status(HttpStatus.OK).send({
+    //       packageincluded,
+    //       message: 'travel package Inlcluded Iteam Added',
+    //     });)
     // for (const file of files) {
     //   const newimage = new AlbumImage();
     //   newimage.filename = file.filename;
@@ -314,27 +359,19 @@ export class TourpackagesController {
   //   }
 
     @Post(':id/AddTourPackageExclusions')
-    addTourPackageExclusions(
+    async addTourPackageExclusions(
       @Param('id', ParseIntPipe) id: number,
       @Body() packageexcluionsdto: CreatepackageExclsuionsDto,
       @Req() req: Request,
       @Res() res: Response,
     )
     {
-
-       const exclsuions = this.tourpackagesService.AddpackageExclsuions(
+      const exclsuions= await this.tourpackagesService.AddpackageExclsuions(
         id,
         packageexcluionsdto,
       );
-      // const x= []
-      // for(const exclusions of packageexcluionsdto){
-      //   const tourpackageplan = this.tourpackagesService.AddpackageExclsuions(
-      //     id,
-      //     exclusions
-      //   );
-      //   x.push(tourpackageplan)
-      // }
-    return res.status(HttpStatus.OK).send({exclsuions, message: "Image  Added Successfully"})
+ 
+    return res.status(HttpStatus.OK).send({message: "exlsuions  Added Successfully",exclsuions})
     }
      
 
