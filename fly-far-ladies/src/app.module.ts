@@ -9,16 +9,14 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TourpackagesModule } from './tourpackages/tourpackages.module';
 import { ImageModule } from './image/image.module';
-import { tourpackage } from './tourpackages/entities/tourpackage.entity';
+import { Tourpackage } from './tourpackages/entities/tourpackage.entity';
 import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
 import { packageinclusion } from './tourpackages/entities/packageInclusion.entitry';
 import { tourpackageplan } from './tourpackages/entities/tourpackageplan.entity';
 import { packageexcluions } from './tourpackages/entities/packageexclsuions.entity';
 import { packagehighlight } from './tourpackages/entities/packagehighlight.entity';
-import { PolicyModule } from './bookingPolicy/policy.module';
-import { BookingPolicy } from './bookingPolicy/entities/policy.entity';
-import { Travelpackage } from './travelpackage/entities/travelpackage.entity';
-import { TravelpackageModule } from './travelpackage/travelpackage.module';
+import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
+import { VisitedPalce } from './tourpackages/entities/visitedplace.entity';
 
 @Module({
   imports: [
@@ -31,7 +29,7 @@ import { TravelpackageModule } from './travelpackage/travelpackage.module';
       database: 'flyfar-ladies',
       autoLoadEntities:false,
       entities: [
-        tourpackage,
+        Tourpackage,
         AlbumImage,
         CartImage,
         packageexcluions,
@@ -39,17 +37,15 @@ import { TravelpackageModule } from './travelpackage/travelpackage.module';
         packageinclusion,
         tourpackageplan,
         packagehighlight,
-        BookingPolicy,
         refundpolicy,
-        Travelpackage,
+        bookingpolicy,
+        VisitedPalce,
       ],
       synchronize:true,
     }),
     TourpackagesModule,
     UsersModule,
     ImageModule,
-    PolicyModule,
-    TravelpackageModule,
   ],
 
   controllers: [AppController],

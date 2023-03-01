@@ -1,19 +1,24 @@
-import { Column } from 'typeorm';
+import { Column, JoinColumn, ManyToOne } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity} from 'typeorm';
+import { Tourpackage } from './tourpackage.entity';
 
 @Entity()
 export class packageincluded{
    @PrimaryGeneratedColumn()
    Id:number
    @Column({default:true})
-   Flight:string
+   Flight:boolean
    @Column({default:true})
-   Hotel:string
+   Hotel:boolean
    @Column({default:true})
-   Food:string
+   Food:boolean
    @Column({default:true})
-   Transport:string
+   Transport:boolean
+   @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.includes,)
+   @JoinColumn({ name: 'package_included' })
+   tourpackage:Tourpackage
+  
 
 
 

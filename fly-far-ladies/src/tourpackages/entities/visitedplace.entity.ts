@@ -1,13 +1,13 @@
-
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
 
+
 @Entity()
-export class AlbumImage{
+export class VisitedPalce{
    @PrimaryGeneratedColumn()
-   AlbumId: number;
+   Id:number
    @Column()
-   AlbumTitle: string;
+   PlaceName:string
    @Column()
    fieldname: string;
    @Column()
@@ -18,8 +18,7 @@ export class AlbumImage{
    filename: string;
    @Column()
    path: string;
-
-   @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.albumImages)
+   @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.vistitedImages)
+   @JoinColumn({name:'vistited image'})
    tourpackage:Tourpackage;
-   
 }

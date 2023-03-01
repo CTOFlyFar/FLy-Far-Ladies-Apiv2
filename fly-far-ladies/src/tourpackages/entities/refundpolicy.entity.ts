@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Tourpackage } from './tourpackage.entity';
 
 
 @Entity()
@@ -7,39 +8,9 @@ export class refundpolicy {
     @PrimaryGeneratedColumn()
     Id: number
     @Column()
-    RefundPolicy1: string
-    @Column()
-    RefundPolicy2: string
-    @Column()
-    RefundPolicy3: string
-    @Column()
-    RefundPolicy4: string
-    @Column()
-    RefundPolicy5: string
-    @Column()
-    RefundPolicy6: string
-    @Column()
-    RefundPolicy7: string
-    @Column()
-    RefundPolicy8: string
-    @Column()
-    RefundPolicy9: string
-    @Column()
-    RefundPolicy10: string
-    @Column()
-    RefundPolicy11: string
-    @Column()
-    RefundPolicy12: string
-    @Column()
-    RefundPolicy13: string
-    @Column()
-    RefundPolicy14: string
-    @Column()
-    RefundPolicy15: string
-    @Column()
-    RefundPolicy16: string
-    @Column()
-    RefundPolicy17: string
-    @Column()
-    RefundPolicy18: string
+    RefundPolicy:string
+    @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.refundpolicys)
+    @JoinColumn({ name: 'Tour_package_refundpolicy' })
+    tourpackage:Tourpackage;
+   
 }

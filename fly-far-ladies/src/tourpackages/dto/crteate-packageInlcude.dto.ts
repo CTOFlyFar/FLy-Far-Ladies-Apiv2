@@ -1,9 +1,9 @@
 export class createPackageIncludeDto{
    Id:number
-   Flight:string
-   Hotel:string
-   Food:string
-   Transport:string
+   Food:boolean
+   Transport:boolean
+   Flight:boolean
+   Hotel:boolean
 
 
 }

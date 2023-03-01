@@ -1,11 +1,19 @@
 
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+
+import { Column, Entity, JoinColumn, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typeorm';
 import { AlbumImage } from './albumimage.entity';
+import { bookingpolicy } from './bookingpolicy.entity';
 import { CartImage } from './cartimage.entity';
 import { packageexcluions } from './packageexclsuions.entity';
+import { packagehighlight } from './packagehighlight.entity';
+import { packageincluded } from './PackageInclude.entity';
+import { packageinclusion } from './packageInclusion.entitry';
+import { refundpolicy } from './refundpolicy.entity';
+import { tourpackageplan } from './tourpackageplan.entity';
+import { VisitedPalce } from './visitedplace.entity';
 
 @Entity()
-export class tourpackage {
+export class Tourpackage {
   @PrimaryGeneratedColumn()
   Id: number;
   @Column()
@@ -24,75 +32,61 @@ export class tourpackage {
   EndDate: string;
   @Column()
   TripType: string;
-
-  // @Column({type:'json'})
-  // Tourplan:string[];
-
   @Column({ default: true })
   Availability: boolean;
   @Column()
   TotalDuration: string;
   @Column('text')
   PackageOverview: string;
-  @Column('text')
-  PackageVisitedPlace: string;
-  @Column('text')
-  PackageRefundPolicy: string;
-  @Column()
-  AlbumTitle: string;
-
   @Column({ default: true })
   Showpackage: boolean;
-  @Column('simple-array')
-  policies:{
-    name:string
-    description:string
-  }
 
-  @OneToOne(() => CartImage, cartimage => cartimage.tourpackage, { onDelete: "RESTRICT",
-  onUpdate: "RESTRICT",
-  cascade: true,})
+  @OneToOne(() => CartImage, {eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
   @JoinColumn()
-  cartimages: CartImage;
+  cartimage:CartImage;
 
-  @OneToOne(() => AlbumImage, albumImage => albumImage.tourpackage,{
+
+  @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage,{
   cascade: true,})
-  @JoinColumn()
+  @JoinColumn({name:'album image'})
   albumImages: AlbumImage;
 
-  @OneToMany(() =>packageexcluions, (exclusion)=>exclusion.tourpackage, {eager:true, cascade:false})
-  // @JoinColumn({name:'Id', referencedColumnName:'Id'})
-  exclusions: packageexcluions[];
+  @OneToMany(() => VisitedPalce, (albumImage) => albumImage.tourpackage,{eager:true, cascade:false, onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"}) 
+  vistitedImages: VisitedPalce;
+
+  @OneToMany(() =>packageexcluions, (exclusion)=>exclusion.tourpackage, {eager:true, cascade:false, onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
+  exclusions: packageexcluions;
+
+  @OneToMany(() => packageinclusion, (inclsuions)=>inclsuions.tourpackage, { eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
+  PackageInclusions: packageinclusion;
+
+  @OneToMany(() => bookingpolicy, (policy)=>policy.tourpackage,{ eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
+  BookingPolicys: bookingpolicy;
+
+  @OneToMany(() => packagehighlight, (highlights)=>highlights.tourpackage,{ eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
+  highlights: packagehighlight;
+
+  @OneToMany(() => packageincluded, (includes)=>includes.tourpackage,{ eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"} )
+  includes: packageincluded;
+
+  @OneToMany(() => refundpolicy, (refundpolicy)=>refundpolicy.tourpackage,{ eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
+  refundpolicys: refundpolicy;
+
+  @OneToMany(() => tourpackageplan, (dayplans)=>dayplans.tourpackage, {eager:true,onDelete: "RESTRICT",
+  onUpdate: "RESTRICT"})
+  tourpackageplans: tourpackageplan;
 
 
 
-  // @OneToOne(() => packageinclusion, { cascade: true })
-  // @JoinColumn()
-  // PackageInclusions: packageinclusion;
-
-  // @OneToOne(() => packageincluded, { cascade: true })
-  // @JoinColumn({ name: 'package_included' })
-  // packageincluded: packageincluded;
-
-  // @OneToOne(() => tourpackageplan, { cascade: true })
-  // @JoinColumn({ name: 'Tour_package_Plan' })
-  // tourpackageplans: tourpackageplan;
-
-  // @OneToOne(() => packageexcluions, { cascade: true })
-  // @JoinColumn({ name: 'Tour_package_Exclusions' })
-  // packageExcluions: packageexcluions;
-
-  // @OneToOne(() => packagehighlight, { cascade: true })
-  // @JoinColumn({ name: 'Tour_package_Hightlights' })
-  // PackageHighlights: packagehighlight;
-
-  // @OneToOne(() => bookingpolicy, { cascade: true })
-  // @JoinColumn({ name: 'Tour_package_BookingPolicy' })
-  // BookingPolicys: bookingpolicy;
 
 
-  // @OneToOne(() => refundpolicy, { cascade: true })
-  // @JoinColumn({ name: 'Tour_package_refundpolicy' })
-  // refundpolicys: refundpolicy;
 
 }

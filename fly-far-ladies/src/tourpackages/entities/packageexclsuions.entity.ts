@@ -1,21 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn,} from 'typeorm';
-import { tourpackage } from './tourpackage.entity';
 
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, } from 'typeorm';
+import { Tourpackage } from './tourpackage.entity';
 
 
 
 @Entity()
 export class packageexcluions {
   @PrimaryGeneratedColumn()
-  exclusionsId: number;
-  @Column({nullable:false})
-  Id:number
-  @Column()
-  name:string
+  Id: number
   @Column()
   PackageExclusions: string;
-  @ManyToOne(()=>tourpackage, (tourpackages)=>tourpackages.exclusions,{ cascade:true})
-  @JoinColumn({name : 'post_id'})
-  tourpackage:tourpackage;
+  
+  @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.exclusions)
+  @JoinColumn({name:'exclsuionId'})
+  tourpackage:Tourpackage
+
  
 }
