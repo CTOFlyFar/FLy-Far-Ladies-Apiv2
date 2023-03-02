@@ -41,7 +41,7 @@ export class Tourpackage {
   @Column({ default: true })
   Showpackage: boolean;
 
-  @OneToOne(() => CartImage, {eager:true,onDelete: "RESTRICT",
+  @OneToOne(() => CartImage, {eager:true, onDelete: 'CASCADE',
   onUpdate: "RESTRICT"})
   @JoinColumn()
   cartimage:CartImage;

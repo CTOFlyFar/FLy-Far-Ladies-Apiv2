@@ -1,6 +1,6 @@
 
 
 export class CreatepackageExclsuionsDto {
- Id: number;
+ ExId: number;
  PackageExclusions:string;
 }

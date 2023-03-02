@@ -283,8 +283,9 @@ async getsingleInclsuions(
   });
 }
 
-
 //End refund policy
+
+
   @Post(':Id/AddcartImage')
   @UseInterceptors(
     FileInterceptor('image',{
@@ -299,6 +300,7 @@ async getsingleInclsuions(
       }),
     }),
   )
+
   async AddImages(
     @UploadedFile(
       new ParseFilePipeBuilder()
@@ -344,8 +346,6 @@ async getsingleInclsuions(
       storage: diskStorage({
         destination: './AlbumImages',
         filename: (req, image, callback) => {
-          // const uniqueSuffix = Date.now() + '-' +Math.round(Math.random()*1e9);
-          // const ext = extname(image.originalname)
           const filename = `${image.originalname}`;
           callback(null, filename);
         },

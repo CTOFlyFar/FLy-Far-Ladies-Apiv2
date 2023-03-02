@@ -413,11 +413,12 @@ async DeleteInclusion(Id: number, InId: number) {
 //add exclsuions
 
 
+
 async AddpackageExclsuions(
   Id: number,
   exclusiondto: CreatepackageExclsuionsDto,
 ) {
-
+  
   const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
   if (!tourpackage) {
     throw new HttpException(
@@ -470,10 +471,6 @@ async AddpackageExclsuions(
     return savenewpackageplan;
 
   }
-
-
-
-
 
   async AddPackageHighlight(
     Id: number,
