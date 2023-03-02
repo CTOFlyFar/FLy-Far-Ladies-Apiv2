@@ -6,7 +6,7 @@ import { Tourpackage } from './tourpackage.entity';
 @Entity()
 export class bookingpolicy {
     @PrimaryGeneratedColumn()
-    Id: number
+    BkId: number
     @Column()
     description:string;
     @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.BookingPolicys)

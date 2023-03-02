@@ -1,5 +1,5 @@
 export class createpackageincluionDto{
-   Id:number
+   InId:number
    inclusions:string
   
 }

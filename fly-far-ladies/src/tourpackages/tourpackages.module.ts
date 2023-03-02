@@ -1,7 +1,6 @@
 import { Tourpackage } from './entities/tourpackage.entity';
 
 import { TourpackagesService } from './tourpackages.service';
-import { BookingPolicycontroller, TourpackagesController } from './tourpackages.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { packageincluded } from './entities/PackageInclude.entity';
 import { Packageinclusion } from './entities/packageInclusion.entitry';
@@ -14,6 +13,7 @@ import { CartImage } from './entities/cartimage.entity';
 import { AlbumImage } from './entities/albumimage.entity';
 import { VisitedPalce } from './entities/visitedplace.entity';
 import { Module } from '@nestjs/common/decorators/modules/module.decorator';
+import { TourpackagesController } from './tourpackages.controller';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { Module } from '@nestjs/common/decorators/modules/module.decorator';
       refundpolicy,
     ]),
   ],
-  controllers: [TourpackagesController,BookingPolicycontroller ],
+  controllers: [TourpackagesController],
   providers: [TourpackagesService, ],
   exports:[TourpackagesService]
 })

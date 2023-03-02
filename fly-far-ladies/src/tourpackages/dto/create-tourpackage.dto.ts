@@ -1,5 +1,3 @@
-import { CreatepackageExclsuionsDto } from "./create-packageexclusions.dto"
-
 
 export class CreateTourPackageDto {
     Id:number
@@ -10,23 +8,11 @@ export class CreateTourPackageDto {
     Location:string
     StartDate:string
     EndDate:string
-       
-     
     TripType:string
     Availability:boolean
     TotalDuration:string
     PackageOverview:string
-    excluions:CreatepackageExclsuionsDto[]
-    // PackageIncluded:string
-    // PackageVisitedPlace:string
-    // PackageHighlight:string
-    // PackageTourPlan:string
-    // PackageExclusion:string
-    // PackageBookingPolicy:string
-    // PackageRefundPolicy:string
-    // AlbumTitle:string
-    // AlbumImage:string
-    // Showpackage:boolean
+    Showpackage:boolean
 }
 
 // Id:number

@@ -1,6 +1,6 @@
 
 export class createRefundPolicyDto {
-    Id: number
+    RId: number
     RefundPolicy: string
    
 }

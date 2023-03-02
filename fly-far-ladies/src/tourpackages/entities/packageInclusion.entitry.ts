@@ -5,7 +5,7 @@ import { Tourpackage } from './tourpackage.entity';
 @Entity()
 export class Packageinclusion {
   @PrimaryGeneratedColumn()
-  Id: number;
+  InId: number;
 
   @Column({type:'text'})
   inclusions:string

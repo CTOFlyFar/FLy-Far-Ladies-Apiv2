@@ -8,7 +8,6 @@ import { packageexcluions } from './packageexclsuions.entity';
 import { packagehighlight } from './packagehighlight.entity';
 import { packageincluded } from './PackageInclude.entity';
 import { Packageinclusion } from './packageInclusion.entitry';
-// import { packageinclusion } from './packageInclusion.entitry';
 import { refundpolicy } from './refundpolicy.entity';
 import { tourpackageplan } from './tourpackageplan.entity';
 import { VisitedPalce } from './visitedplace.entity';

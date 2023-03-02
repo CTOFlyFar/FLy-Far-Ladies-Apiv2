@@ -1,7 +1,7 @@
 
 
 export class CreateBookingPolicyDto{
-  Id:number
+  BkId:number
   description:string
    
 }

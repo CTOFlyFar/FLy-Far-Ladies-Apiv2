@@ -5,10 +5,8 @@ import { refundpolicy } from './tourpackages/entities/refundpolicy.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TourpackagesModule } from './tourpackages/tourpackages.module';
-import { ImageModule } from './image/image.module';
 import { Tourpackage } from './tourpackages/entities/tourpackage.entity';
 import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
 import { Packageinclusion } from './tourpackages/entities/packageInclusion.entitry';
@@ -44,8 +42,7 @@ import { VisitedPalce } from './tourpackages/entities/visitedplace.entity';
       synchronize:true,
     }),
     TourpackagesModule,
-    UsersModule,
-    ImageModule,
+   
   ],
 
   controllers: [AppController],

@@ -1,25 +1,15 @@
 
-import { CreateImageDto } from 'src/image/dto/create-image.dto';
+
 import { Tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
-
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { packageincluded } from './entities/PackageInclude.entity';
-
-// import { packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
-
 import { packageexcluions } from './entities/packageexclsuions.entity';
-
-
-// import { refundpolicy } from './entities/refundpolicy.entity';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { packagehighlight } from './entities/packagehighlight.entity';
-// import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
-// import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
 import { refundpolicy } from './entities/refundpolicy.entity';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
@@ -31,8 +21,11 @@ import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { CartImage } from './entities/cartimage.entity';
 import { Packageinclusion } from './entities/packageInclusion.entitry';
+import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
+import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
+import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
 
-// import { packageinclusion } from './entities/packageInclusion.entitry';
+
 
 @Injectable()
 export class TourpackagesService {
@@ -55,8 +48,10 @@ export class TourpackagesService {
     private refundPolicyRepo: Repository<refundpolicy>,
     @InjectRepository(CartImage)
     private CartImageRepo: Repository<CartImage>,
-  ) {}
+  ) { }
 
+
+  // travel package start
   async Addtravelcreate(createTourpackageDto: CreateTourPackageDto) {
     const travelpackage = await this.travelPackageRepo.create(
       createTourpackageDto,
@@ -65,28 +60,29 @@ export class TourpackagesService {
     return Addtravelpackage;
   }
 
+
   async findAllTravelpackage() {
     return await this.travelPackageRepo.find({
-  //     relations: {
-  //     cartimage: true,
-  //     albumImages: true,
-  //     vistitedImages:true,
-  //     exclusions: true,
-  //     includes:true,
-  //     BookingPolicys:true,
-  //     PackageInclusions: true,
-  //     highlights:true,
-  //     refundpolicys:true,
-  //     tourpackageplans:true
+      //     relations: {
+      //     cartimage: true,
+      //     albumImages: true,
+      //     vistitedImages:true,
+      //     exclusions: true,
+      //     includes:true,
+      //     BookingPolicys:true,
+      //     PackageInclusions: true,
+      //     highlights:true,
+      //     refundpolicys:true,
+      //     tourpackageplans:true
 
-  // }
+      // }
 
- }) 
+    })
   }
 
-  async findOnePackage(Id:number){
+  async findOnePackage(Id: number) {
     const tarvelpackage = await this.travelPackageRepo.find({
-      where: { Id},
+      where: { Id },
       // relations: {
       //   cartimage: true,
       //   albumImages: true,
@@ -102,27 +98,14 @@ export class TourpackagesService {
     })
     return tarvelpackage;
 
-
   }
+
   async updatePackage(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
     return await this.travelPackageRepo.update(
       { Id },
       { ...updateTourpackageDto },
     );
   }
-
-
-//  async findcartimage(Id:number){
-//   const cardImage= await this.CartImageRepo.findOne({
-//     where:{Id}})
-//     if (!cardImage) {
-//       throw new HttpException(
-//         `cardImage not found with this id=${Id}`,
-//         HttpStatus.BAD_REQUEST,
-//       );
-//     }
-//   return CartImage
-//  }
 
   async removepackage(Id: number) {
     const deletepackage = await this.travelPackageRepo.delete(Id);
@@ -134,9 +117,14 @@ export class TourpackagesService {
     }
   }
 
+  // End travel package
+  
+
+  // booking policy start.................
 
 
-  async createbookingPolicy(Id:number, CreateBookingPolicyDto:CreateBookingPolicyDto):Promise<bookingpolicy>{
+  //add booking policy
+  async createbookingPolicy(Id: number, CreateBookingPolicyDto: CreateBookingPolicyDto): Promise<bookingpolicy> {
     const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
     if (!tourpackage) {
       throw new HttpException(
@@ -144,148 +132,367 @@ export class TourpackagesService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const creatpolicy = await this.bookingPolicyRepo.create({...CreateBookingPolicyDto, tourpackage});
-    const createdpolicy= await this.bookingPolicyRepo.save(creatpolicy)
+    const creatpolicy = await this.bookingPolicyRepo.create({ ...CreateBookingPolicyDto, tourpackage });
+    const createdpolicy = await this.bookingPolicyRepo.save(creatpolicy)
     return createdpolicy;
 
   }
- 
 
-    async AddpackageIncluded(
-      Id: number,
-      PackgeincludedDto: createPackageIncludeDto,
-    ) {
-      const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-      if (!tourpackage) {
-        throw new HttpException(
-          "TourPackage not found, cann't add cover image",
-          HttpStatus.BAD_REQUEST,
-        );
+  // find booking policy
+  async FindbookingPolicy(Id: number, BkId: number) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
       }
-      const Addincluded = await this.packageIncludeRepo.create({...PackgeincludedDto,tourpackage});
-      const saveincluded = await this.packageIncludeRepo.save(Addincluded);
-      return saveincluded;
-      
-
-    }
-
-    async AddpackageInclusions(
-      Id: number,
-      PackgeinclusionsDto: createpackageincluionDto,
-    ) {
-      const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-      if (!tourpackage) {
-        throw new HttpException(
-          "TourPackage not found, cann't add cover image",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const newInclusions = this.packageInclusionRepo.create({...PackgeinclusionsDto, tourpackage});
-       await this.packageInclusionRepo.save(
-        newInclusions
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
       );
-      
     }
-
-    async AddTourpackagePlan(
-      Id: number,
-      tourpackageplandto: CreateTourPackagePlanDto,
-    ) {
-      const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-      if (!tourpackage) {
-        throw new HttpException(
-          "TourPackage not found, cann't add tourplan",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const createpackageplan =
-        this.tourpackagePanRepo.create({...tourpackageplandto,tourpackage});
-      const savenewpackageplan = await this.tourpackagePanRepo.save(
-        createpackageplan,
+    const bookingpolicy = await this.bookingPolicyRepo.findOne({ where: { BkId } })
+    if (!bookingpolicy) {
+      throw new HttpException(
+        `booking policy not found with this id=${BkId}`,
+        HttpStatus.BAD_REQUEST,
       );
-      return savenewpackageplan;
-  
     }
+    return bookingpolicy;
+  }
+
+  //update booking policy
+  async updateBookingolicy(Id: number, BkId: number, updateBOokingPolicy: updateBookingPolicyDto) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const bookingpolicy = await this.bookingPolicyRepo.findOne({ where: { BkId } })
+    if (!bookingpolicy) {
+      throw new HttpException(
+        `booking policy not found with this id=${BkId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const updatepolicy = await this.bookingPolicyRepo.update({ BkId }, { ...updateBOokingPolicy })
+    return updatepolicy;
+  }
+
+//Delete booking policy
+  async DeletebookingPolicy(Id: number, BkId: number) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const bookingpolicy = await this.bookingPolicyRepo.findOne({ where: { BkId } })
+    if (!bookingpolicy) {
+      throw new HttpException(
+        `booking policy not found with this id=${BkId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    await this.bookingPolicyRepo.delete(BkId);
+  }
+
+//End Booking Policy
 
 
-  async AddpackageExclsuions(
+// start refund policy
+
+async AddRefundPolicy(
+  Id: number,
+  refundpolicydto: createRefundPolicyDto,
+) {
+  const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+  if (!tourpackage) {
+    throw new HttpException(
+      "TourPackage not found, cann't add cover image",
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const createrefundpolicy = this.refundPolicyRepo.create({ ...refundpolicydto, tourpackage });
+  const newrefundpolicy = await this.refundPolicyRepo.save(
+    createrefundpolicy,
+  );
+  return newrefundpolicy;
+
+}
+
+
+
+async FindRefundPolicy(Id: number, RId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const refundpolicy = await this.refundPolicyRepo.findOne({ where: { RId } })
+  if (!refundpolicy) {
+    throw new HttpException(
+      `booking policy not found with this id=${RId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  return refundpolicy;
+}
+
+
+// update booking policy
+async updateRefundolicy(Id: number, RId: number, updaterefundPolicy: UpdateRefundPolicy) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const bookingpolicy = await this.refundPolicyRepo.findOne({ where: { RId } })
+  if (!bookingpolicy) {
+    throw new HttpException(
+      `booking policy not found with this id=${RId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const updatepolicy = await this.refundPolicyRepo.update({RId}, { ...updaterefundPolicy })
+  return updatepolicy;
+}
+
+
+//Delete refund policy
+async DeleterefundPolicy(Id: number, RId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const Refundpolicy = await this.refundPolicyRepo.findOne({ where: { RId } })
+  if (!Refundpolicy) {
+    throw new HttpException(
+      `Refund policy not found with this id=${RId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  await this.refundPolicyRepo.delete(RId);
+}
+
+
+///End refund Policy
+
+
+
+/// start packgae inclsions
+
+
+//  Add package inclusions
+
+async AddpackageInclusions(
+  Id: number,
+  PackgeinclusionsDto: createpackageincluionDto,
+) {
+  const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+  if (!tourpackage) {
+    throw new HttpException(
+      "TourPackage not found, cann't add cover image",
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const newInclusions = await this.packageInclusionRepo.create({ ...PackgeinclusionsDto, tourpackage });
+  const updatetour = await this.packageInclusionRepo.save(newInclusions)
+  return updatetour;
+}
+
+// find inclusions
+async FindInclsuions(Id: number, InId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const inclusions= await this.packageInclusionRepo.findOne({ where: { InId } })
+  if (!inclusions) {
+    throw new HttpException(
+      `Inclusions not found with this id=${InId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  return inclusions;
+}
+
+
+
+
+// update inclusions
+async updateInclusions(Id: number, InId: number, updateInclusionsDto: updatepackageInclusionDto) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const inclsuions = await this.packageInclusionRepo.findOne({ where: { InId } })
+  if (!inclsuions) {
+    throw new HttpException(
+      `inclusions not found with this id=${InId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const updateinclsuions = await this.packageInclusionRepo.update({InId}, { ...updateInclusionsDto })
+  return updateinclsuions;
+}
+
+
+// Delete exclusions
+async DeleteInclusion(Id: number, InId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const inclusions = await this.packageInclusionRepo.findOne({ where: { InId } })
+  if (!inclusions) {
+    throw new HttpException(
+      `Inclsuions not found with this id=${InId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  await this.packageInclusionRepo.delete(InId);
+}
+
+/// end inclusions
+
+
+/// start package exclsuions
+
+//add exclsuions
+
+
+async AddpackageExclsuions(
+  Id: number,
+  exclusiondto: CreatepackageExclsuionsDto,
+) {
+
+  const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+  if (!tourpackage) {
+    throw new HttpException(
+      "TourPackage not found, cann't add cover image",
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const exclusion = await this.packageexcluionsRepo.create({ ...exclusiondto, tourpackage });
+  await this.packageexcluionsRepo.save(exclusion);
+
+}
+
+
+
+
+  async AddpackageIncluded(
     Id: number,
-    exclusiondto: CreatepackageExclsuionsDto,
+    PackgeincludedDto: createPackageIncludeDto,
   ) {
-
     const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
     if (!tourpackage) {
       throw new HttpException(
         "TourPackage not found, cann't add cover image",
         HttpStatus.BAD_REQUEST,
       );
-      }
-      const exclusion= await this.packageexcluionsRepo.create({...exclusiondto, tourpackage});
-      await this.packageexcluionsRepo.save(exclusion);
-
     }
-
-  
-
-    async AddPackageHighlight(
-      Id: number,
-      packagehighlightdto: CreatePackageHighlightDto,
-    ) {
-      const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-      if (!tourpackage) {
-        throw new HttpException(
-          "TourPackage not found, cann't add cover image",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const createHightlight =
-        this.packageHighlightRepo.create({...packagehighlightdto,tourpackage});
-      const saveHighlight = await this.packageHighlightRepo.save(
-        createHightlight,
-      );
-      return saveHighlight;
-
-    }
-
-    
-    async AddRefundPolicy(
-      Id: number,
-      refundpolicydto: createRefundPolicyDto,
-    ) {
-      const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-      if (!tourpackage) {
-        throw new HttpException(
-          "TourPackage not found, cann't add cover image",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const createrefundpolicy = this.refundPolicyRepo.create({...refundpolicydto,tourpackage});
-      const newrefundpolicy = await this.refundPolicyRepo.save(
-        createrefundpolicy,
-      );
-      return newrefundpolicy;
-      
-    }
-
-    async AddcartImage(
-      Id: number,
-      createcartimagedto: CreateImageDto,
-    ) {
-      const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
-      if (!tourpackage) {
-        throw new HttpException(
-          "TourPackage not found, cann't add cover image",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const createrefundpolicy = this.refundPolicyRepo.create(createcartimagedto);
-      const newrefundpolicy = await this.refundPolicyRepo.save(
-        createrefundpolicy,
-      );
-      return newrefundpolicy;
-      
-    }
-  
-
-  
+    const Addincluded = await this.packageIncludeRepo.create({ ...PackgeincludedDto, tourpackage });
+    const saveincluded = await this.packageIncludeRepo.save(Addincluded);
+    return saveincluded;
   }
+
+  
+
+  async AddTourpackagePlan(
+    Id: number,
+    tourpackageplandto: CreateTourPackagePlanDto,
+  ) {
+    const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add tourplan",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createpackageplan =
+      this.tourpackagePanRepo.create({ ...tourpackageplandto, tourpackage });
+    const savenewpackageplan = await this.tourpackagePanRepo.save(
+      createpackageplan,
+    );
+    return savenewpackageplan;
+
+  }
+
+
+
+
+
+  async AddPackageHighlight(
+    Id: number,
+    packagehighlightdto: CreatePackageHighlightDto,
+  ) {
+    const tourpackage = await this.travelPackageRepo.findOneBy({ Id });
+    if (!tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add cover image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createHightlight =
+      this.packageHighlightRepo.create({ ...packagehighlightdto, tourpackage });
+    const saveHighlight = await this.packageHighlightRepo.save(
+      createHightlight,
+    );
+    return saveHighlight;
+
+  }
+
+}
