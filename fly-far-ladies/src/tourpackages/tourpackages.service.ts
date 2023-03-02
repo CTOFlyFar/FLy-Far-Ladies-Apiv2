@@ -9,15 +9,18 @@ import { Repository } from 'typeorm';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { packageincluded } from './entities/PackageInclude.entity';
 
-import { packageinclusion } from './entities/packageInclusion.entitry';
+// import { packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
 
 import { packageexcluions } from './entities/packageexclsuions.entity';
 
-import { packagehighlight } from './entities/packagehighlight.entity';
 
-import { refundpolicy } from './entities/refundpolicy.entity';
+// import { refundpolicy } from './entities/refundpolicy.entity';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
+import { packagehighlight } from './entities/packagehighlight.entity';
+// import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
+// import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
+import { refundpolicy } from './entities/refundpolicy.entity';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
@@ -27,6 +30,9 @@ import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { CartImage } from './entities/cartimage.entity';
+import { Packageinclusion } from './entities/packageInclusion.entitry';
+
+// import { packageinclusion } from './entities/packageInclusion.entitry';
 
 @Injectable()
 export class TourpackagesService {
@@ -35,8 +41,8 @@ export class TourpackagesService {
     private travelPackageRepo: Repository<Tourpackage>,
     @InjectRepository(packageincluded)
     private packageIncludeRepo: Repository<packageincluded>,
-    @InjectRepository(packageinclusion)
-    private packageInclusionRepo: Repository<packageinclusion>,
+    @InjectRepository(Packageinclusion)
+    private packageInclusionRepo: Repository<Packageinclusion>,
     @InjectRepository(tourpackageplan)
     private tourpackagePanRepo: Repository<tourpackageplan>,
     @InjectRepository(packageexcluions)
@@ -95,7 +101,7 @@ export class TourpackagesService {
       // },
     })
     return tarvelpackage;
-    // );
+
 
   }
   async updatePackage(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
@@ -219,6 +225,7 @@ export class TourpackagesService {
 
     }
 
+  
 
     async AddPackageHighlight(
       Id: number,
@@ -280,4 +287,5 @@ export class TourpackagesService {
     }
   
 
+  
   }

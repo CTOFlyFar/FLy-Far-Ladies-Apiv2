@@ -11,7 +11,7 @@ import { TourpackagesModule } from './tourpackages/tourpackages.module';
 import { ImageModule } from './image/image.module';
 import { Tourpackage } from './tourpackages/entities/tourpackage.entity';
 import { packageincluded } from './tourpackages/entities/PackageInclude.entity';
-import { packageinclusion } from './tourpackages/entities/packageInclusion.entitry';
+import { Packageinclusion } from './tourpackages/entities/packageInclusion.entitry';
 import { tourpackageplan } from './tourpackages/entities/tourpackageplan.entity';
 import { packageexcluions } from './tourpackages/entities/packageexclsuions.entity';
 import { packagehighlight } from './tourpackages/entities/packagehighlight.entity';
@@ -34,7 +34,7 @@ import { VisitedPalce } from './tourpackages/entities/visitedplace.entity';
         CartImage,
         packageexcluions,
         packageincluded,
-        packageinclusion,
+        Packageinclusion,
         tourpackageplan,
         packagehighlight,
         refundpolicy,

@@ -7,7 +7,8 @@ import { CartImage } from './cartimage.entity';
 import { packageexcluions } from './packageexclsuions.entity';
 import { packagehighlight } from './packagehighlight.entity';
 import { packageincluded } from './PackageInclude.entity';
-import { packageinclusion } from './packageInclusion.entitry';
+import { Packageinclusion } from './packageInclusion.entitry';
+// import { packageinclusion } from './packageInclusion.entitry';
 import { refundpolicy } from './refundpolicy.entity';
 import { tourpackageplan } from './tourpackageplan.entity';
 import { VisitedPalce } from './visitedplace.entity';
@@ -60,9 +61,9 @@ export class Tourpackage {
   onUpdate: "RESTRICT"})
   exclusions: packageexcluions;
 
-  @OneToMany(() => packageinclusion, (inclsuions)=>inclsuions.tourpackage, { eager:true,onDelete: "RESTRICT",
+  @OneToMany(() => Packageinclusion, (inclsuions)=>inclsuions.tourpackage, { eager:true,onDelete: "RESTRICT",
   onUpdate: "RESTRICT"})
-  PackageInclusions: packageinclusion;
+  PackageInclusions: Packageinclusion;
 
   @OneToMany(() => bookingpolicy, (policy)=>policy.tourpackage,{ eager:true,onDelete: "RESTRICT",
   onUpdate: "RESTRICT"})

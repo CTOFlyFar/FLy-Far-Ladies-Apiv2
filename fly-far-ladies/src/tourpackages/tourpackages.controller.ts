@@ -96,7 +96,7 @@ export class TourpackagesController {
     );
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: 'Travel Package added successfully',TourPackage });
+      .json({ message: 'Travel Package added successfully', TourPackage });
   }
 
   @Get('AllPackages')
@@ -383,22 +383,20 @@ export class TourpackagesController {
       });
     }
 
-    @Post(':id/AddTourPackageExclusions')
-    async addTourPackageExclusions(
-      @Param('id', ParseIntPipe) id: number,
-      @Body() packageexcluionsdto: CreatepackageExclsuionsDto,
-      @Req() req: Request,
-      @Res() res: Response,
-    )
-    {
-      const exclsuions= await this.tourpackagesService.AddpackageExclsuions(
-        id,
-        packageexcluionsdto,
-      );
- 
-    return res.status(HttpStatus.OK).send({message: "exlsuions  Added Successfully",exclsuions})
-    }
-     
+  @Post(':id/AddTourPackageExclusions')
+  async addTourPackageExclusions(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() packageexcluionsdto: CreatepackageExclsuionsDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const exclsuions = await this.tourpackagesService.AddpackageExclsuions(
+      id,
+      packageexcluionsdto,
+    );
+
+    return res.status(HttpStatus.OK).send({ message: "exlsuions  Added Successfully", exclsuions })
+  }
 
 
     @Post(':id/AddTourPackageHighlight')

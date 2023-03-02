@@ -2,6 +2,6 @@
 
 export class CreateBookingPolicyDto{
   Id:number
-  description:string;
+  description:string
    
 }

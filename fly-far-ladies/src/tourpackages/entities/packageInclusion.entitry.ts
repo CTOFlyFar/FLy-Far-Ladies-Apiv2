@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { Tourpackage } from './tourpackage.entity';
 
 @Entity()
-export class packageinclusion {
+export class Packageinclusion {
   @PrimaryGeneratedColumn()
   Id: number;
 

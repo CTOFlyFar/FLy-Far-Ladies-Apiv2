@@ -1,9 +1,10 @@
 import { Tourpackage } from './entities/tourpackage.entity';
+
 import { TourpackagesService } from './tourpackages.service';
 import { BookingPolicycontroller, TourpackagesController } from './tourpackages.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { packageincluded } from './entities/PackageInclude.entity';
-import { packageinclusion } from './entities/packageInclusion.entitry';
+import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { packagehighlight } from './entities/packagehighlight.entity';
@@ -22,7 +23,7 @@ import { Module } from '@nestjs/common/decorators/modules/module.decorator';
       AlbumImage,
       VisitedPalce,
       packageincluded,
-      packageinclusion,
+      Packageinclusion,
       tourpackageplan,
       packageexcluions,
       packagehighlight,
