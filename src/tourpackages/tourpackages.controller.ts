@@ -40,6 +40,7 @@ import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
 import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
 import { CardImage } from './entities/cardImage.entity';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
+import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -495,6 +496,9 @@ async getAllCardeImage(
       });
     }
 
+/// add tour package 
+
+
 
     @Post(':id/AddTourPackagePlan')
     addTourPackagePlan(
@@ -514,6 +518,54 @@ async getAllCardeImage(
     }
 
 
+    @Get(':id/tourplan/:dayId')
+    async getdayplan(
+     @Param('id') id: number,
+     @Param('dayId') dayId: number,
+     @Req() req: Request,
+     @Res() res: Response)
+     {
+      const exclsuions = await this.tourpackagesService.Finddayplan(id,dayId)
+      return res.status(HttpStatus.OK).json({
+       message: `travel package plan with this Id=${dayId} is`,
+       exclsuions,
+     });
+     }
+  
+  //update package exclsuions
+  
+  
+  
+  @Patch(':id/updateplan/:dayId')
+  async updatePackageplan(
+    @Param('id') id: number,
+    @Param('dayId') dayId: number,
+    @Body() updatedayplanDto: updateTourPackagePlanDto,
+    req: Request,
+    @Res() res: Response,
+  ) {
+    const updatedayplan = await this.tourpackagesService.updatedayplan(id,dayId,updatedayplanDto)
+    return res.status(HttpStatus.OK).json({
+      message: `dayplan with Id=${dayId} has updated successfully`,
+      updatedayplan,
+    });
+  }
+  
+  
+  // delete excluions
+  @Delete(':id/deletedayplan/:dayId')
+   async DeleteDay(
+    @Param('id') id: number,
+    @Param('dayId') dayId: number,
+    @Req() req: Request,
+    @Res() res: Response)
+    {
+     await this.tourpackagesService.DeleteIdayplan(id,dayId)
+     return res.status(HttpStatus.OK).json({
+      message:`dayplan Id=${dayId} has deleted successfully`,
+    });
+  }
+  
 
 
  /// addd package excluions

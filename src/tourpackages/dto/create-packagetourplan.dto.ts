@@ -1,4 +1,4 @@
 export class CreateTourPackagePlanDto {
-  daId: number;
+  dayId: number;
   dayplan: string;
 }

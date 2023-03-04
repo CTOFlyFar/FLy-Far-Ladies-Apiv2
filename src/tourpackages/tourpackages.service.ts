@@ -24,6 +24,7 @@ import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
 import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
 import { CardImage } from './entities/cardImage.entity';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
+import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 
 
 
@@ -37,7 +38,7 @@ export class TourpackagesService {
     @InjectRepository(Packageinclusion)
     private packageInclusionRepo: Repository<Packageinclusion>,
     @InjectRepository(tourpackageplan)
-    private tourpackagePanRepo: Repository<tourpackageplan>,
+    private tourpackagePlanRepo: Repository<tourpackageplan>,
     @InjectRepository(packageexcluions)
     private packageexcluionsRepo: Repository<packageexcluions>,
     @InjectRepository(packagehighlight)
@@ -571,7 +572,9 @@ async DeleteIExclusion(Id: number, ExId: number) {
     return saveincluded;
   }
 
-  
+
+
+  // add tour package
 
   async AddTourpackagePlan(
     Id: number,
@@ -585,13 +588,144 @@ async DeleteIExclusion(Id: number, ExId: number) {
       );
     }
     const createpackageplan =
-      this.tourpackagePanRepo.create({ ...tourpackageplandto, tourpackage });
-    const savenewpackageplan = await this.tourpackagePanRepo.save(
+      this.tourpackagePlanRepo.create({ ...tourpackageplandto, tourpackage });
+    const savenewpackageplan = await this.tourpackagePlanRepo.save(
       createpackageplan,
     );
     return savenewpackageplan;
 
   }
+
+
+
+
+
+
+// find Exclusions
+async Finddayplan(Id: number, dayId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+
+  const dayplan= await this.tourpackagePlanRepo.findOne({ where: { dayId } })
+  if (!dayplan) {
+    throw new HttpException(
+      `tour plan not found not found with this id=${dayId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  return dayplan;
+}
+
+// update inclusions
+async updatedayplan(Id: number, dayId: number, updatedayplanDto: updateTourPackagePlanDto) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const dayplan = await this.tourpackagePlanRepo.findOne({ where: { dayId } })
+  if (!dayplan) {
+    throw new HttpException(
+      `day plan not found with this id=${dayId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const uodatedayplan = await this.tourpackagePlanRepo.update({dayId}, { ...updatedayplanDto })
+  return uodatedayplan;
+}
+
+
+// Delete exclusions
+async DeleteIdayplan(Id: number, dayId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const inclusions = await this.tourpackagePlanRepo.findOne({ where: { dayId } })
+  if (!inclusions) {
+    throw new HttpException(
+      `Inclsuions not found with this id=${dayId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  await this.tourpackagePlanRepo.delete(dayId);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   async AddPackageHighlight(
     Id: number,

@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
 
 @Entity()
 export class tourpackageplan {
   @PrimaryGeneratedColumn()
-  Id: number;
-  @Column({ type: 'text' })
+  dayId: number;
+  @Column({ type: 'text'})
   dayplan: string;
 
   @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.tourpackageplans)
