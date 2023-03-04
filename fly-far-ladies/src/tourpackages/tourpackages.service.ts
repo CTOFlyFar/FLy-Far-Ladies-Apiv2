@@ -19,7 +19,6 @@ import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
-import { CartImage } from './entities/cartimage.entity';
 import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
@@ -46,8 +45,6 @@ export class TourpackagesService {
     private bookingPolicyRepo: Repository<bookingpolicy>,
     @InjectRepository(refundpolicy)
     private refundPolicyRepo: Repository<refundpolicy>,
-    @InjectRepository(CartImage)
-    private CartImageRepo: Repository<CartImage>,
   ) { }
 
 

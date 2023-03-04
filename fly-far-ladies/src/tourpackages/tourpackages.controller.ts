@@ -15,9 +15,9 @@ import {
   ParseIntPipe,
   ParseFilePipeBuilder,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
   Patch,
+  UploadedFile,
 
 } from '@nestjs/common';
 import { TourpackagesService } from './tourpackages.service';
@@ -26,8 +26,6 @@ import { Request, Response } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { diskStorage } from 'multer';
-import { CartImage } from './entities/cartimage.entity';
-import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
@@ -41,6 +39,8 @@ import { VisitedPalce } from './entities/visitedplace.entity';
 import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
 import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
+import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
+import { CardImage } from './entities/cardImage.entity';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -48,7 +48,7 @@ export class TourpackagesController {
     //Repository
     @InjectRepository(AlbumImage) private VisitedmageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPalce) private AlbumimageRepo: Repository<AlbumImage>,
-    @InjectRepository(CartImage) private cartmageRepo: Repository<CartImage>,
+    @InjectRepository(CardImage) private cartmageRepo: Repository<CardImage>,
     @InjectRepository(Tourpackage) private travelPackageRepo: Repository<Tourpackage>,
     private readonly tourpackagesService: TourpackagesService,
   
@@ -327,16 +327,16 @@ async getsingleInclsuions(
         HttpStatus.BAD_REQUEST,
       );
     }
-
-    const newimage = new CartImage();
-    newimage.path = file.path;
-    newimage.ImageTitle= req.body.ImageTitle
-    const updatedpackge = await this.cartmageRepo.save(newimage);
-    tourpackage.cartimage =updatedpackge
+    const newimage = new CardImage();
+    newimage.Path = file.path;
+    newimage.Filename = file.filename;
+    newimage.CardTitle= req.body.CardTitle;
+    const savecardimage = await this.cartmageRepo.save(newimage);
+    tourpackage.cardimage =savecardimage
     await this.travelPackageRepo.save(tourpackage);
     return res
       .status(HttpStatus.OK)
-      .send({ updatedpackge, message: 'Travel Package cart Image added' });
+      .send({ savecardimage, message: 'Travel Package cart Image added' });
   }
 
 

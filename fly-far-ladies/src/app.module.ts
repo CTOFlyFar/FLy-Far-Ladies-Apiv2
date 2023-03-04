@@ -1,5 +1,5 @@
 
-import { CartImage } from './tourpackages/entities/cartimage.entity';
+
 import { AlbumImage } from './tourpackages/entities/albumimage.entity';
 import { refundpolicy } from './tourpackages/entities/refundpolicy.entity';
 import { Module } from '@nestjs/common';
@@ -15,21 +15,22 @@ import { packageexcluions } from './tourpackages/entities/packageexclsuions.enti
 import { packagehighlight } from './tourpackages/entities/packagehighlight.entity';
 import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
 import { VisitedPalce } from './tourpackages/entities/visitedplace.entity';
+import { CardImage } from './tourpackages/entities/cardImage.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'flyfarint.com',
+      host: '127.0.0.1',
       port: 3306,
-      username: 'flyfarin_fflv2',
-      password: '123Next2$',
-      database: 'flyfarin_fflv2',
+      username: 'root',
+      password: '',
+      database: 'flyfar-ladies',
       autoLoadEntities:true,
       entities: [
         Tourpackage,
         AlbumImage,
-        CartImage,
+        CardImage,
         packageexcluions,
         packageincluded,
         Packageinclusion,

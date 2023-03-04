@@ -3,7 +3,7 @@
 import { Column, Entity, JoinColumn, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typeorm';
 import { AlbumImage } from './albumimage.entity';
 import { bookingpolicy } from './bookingpolicy.entity';
-import { CartImage } from './cartimage.entity';
+import { CardImage } from './cardImage.entity';
 import { packageexcluions } from './packageexclsuions.entity';
 import { packagehighlight } from './packagehighlight.entity';
 import { packageincluded } from './PackageInclude.entity';
@@ -41,10 +41,10 @@ export class Tourpackage {
   @Column({ default: true })
   Showpackage: boolean;
 
-  @OneToOne(() => CartImage, {eager:true, onDelete: 'CASCADE',
+  @OneToOne(() => CardImage, {eager:true, onDelete: 'CASCADE',
   onUpdate: "RESTRICT"})
   @JoinColumn()
-  cartimage:CartImage;
+  cardimage:CardImage;
 
 
   @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage,{
