@@ -1,5 +1,5 @@
 
 export class CreatePackageHighlightDto {
-  Id: number
+  HiId: number
   description: string;
 }

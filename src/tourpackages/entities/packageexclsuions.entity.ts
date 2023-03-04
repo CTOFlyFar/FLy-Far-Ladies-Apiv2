@@ -9,8 +9,8 @@ export class packageexcluions {
   ExId: number
   @Column()
   PackageExclusions: string;
-  @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.exclusions)
-  @JoinColumn({name:'exclsuionId'})
-  tourpackage:Tourpackage
- 
+  @ManyToOne(() => Tourpackage, (tourpackages) => tourpackages.exclusions)
+  @JoinColumn({ name: 'exclsuionId' })
+  tourpackage: Tourpackage
+
 }
