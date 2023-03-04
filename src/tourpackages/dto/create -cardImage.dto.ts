@@ -2,7 +2,7 @@
 
 
 export class CreatecardImageDto{
-   CarrdId:number
+   CardId:number
    CardTitle:string
    Path:string
    FileName:string

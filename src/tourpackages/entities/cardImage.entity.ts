@@ -13,6 +13,6 @@ export class CardImage{
    @Column()
    Filename:string
    @ManyToOne(()=>Tourpackage, (tourpackage)=>tourpackage.cardimage)
-   @JoinColumn({name:'cardImage'})
+   @JoinColumn({name:'cardImageId'})
    tourpackage:Tourpackage
 }

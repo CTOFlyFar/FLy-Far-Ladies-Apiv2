@@ -1,5 +1,4 @@
 
-
 import { Tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,6 +22,8 @@ import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
 import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
+import { CardImage } from './entities/cardImage.entity';
+import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 
 
 
@@ -45,6 +46,8 @@ export class TourpackagesService {
     private bookingPolicyRepo: Repository<bookingpolicy>,
     @InjectRepository(refundpolicy)
     private refundPolicyRepo: Repository<refundpolicy>,
+    @InjectRepository(CardImage)
+    private CardImageRepo:Repository<CardImage>
   ) { }
 
 
@@ -134,6 +137,59 @@ export class TourpackagesService {
     return createdpolicy;
 
   }
+
+
+
+  async FindCardImage(Id: number, CardId: number) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const cardimage = await this.CardImageRepo.findOne({ where: { CardId } })
+    if (!cardimage) {
+      throw new HttpException(
+        `Image not found with this filename=${CardId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return cardimage;
+  }
+
+
+  async FindAllCardImage(Id: number, ) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const cardimage = await this.CardImageRepo.find({})
+    if (!cardimage) {
+      throw new HttpException(
+        `Image not found with `,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return cardimage;
+  }
+
+
+
+
+
+
 
   // find booking policy
   async FindbookingPolicy(Id: number, BkId: number) {
@@ -409,8 +465,6 @@ async DeleteInclusion(Id: number, InId: number) {
 
 //add exclsuions
 
-
-
 async AddpackageExclsuions(
   Id: number,
   exclusiondto: CreatepackageExclsuionsDto,
@@ -428,7 +482,77 @@ async AddpackageExclsuions(
 
 }
 
+// find Exclusions
+async FindExclsuions(Id: number, ExId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
 
+  const Exclusions= await this.packageexcluionsRepo.findOne({ where: { ExId } })
+  if (!Exclusions) {
+    throw new HttpException(
+      `Exclusions not found with this id=${ExId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  return Exclusions;
+}
+
+// update inclusions
+async updateExclusions(Id: number, ExId: number, updateExlusionsDto: updatepackageExclusionsDto) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const exclsuions = await this.packageexcluionsRepo.findOne({ where: { ExId } })
+  if (!exclsuions) {
+    throw new HttpException(
+      `inclusions not found with this id=${ExId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const updateExclsuions = await this.packageexcluionsRepo.update({ExId}, { ...updateExlusionsDto })
+  return updateExclsuions;
+}
+
+
+// Delete exclusions
+async DeleteIExclusion(Id: number, ExId: number) {
+  const tourpackage = await this.travelPackageRepo.findOne({
+    where: {
+      Id
+    }
+  })
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const inclusions = await this.packageexcluionsRepo.findOne({ where: { ExId } })
+  if (!inclusions) {
+    throw new HttpException(
+      `Inclsuions not found with this id=${ExId}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  await this.packageexcluionsRepo.delete(ExId);
+}
 
 
   async AddpackageIncluded(

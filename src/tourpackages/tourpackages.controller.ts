@@ -39,6 +39,7 @@ import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
 import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
 import { CardImage } from './entities/cardImage.entity';
+import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -52,7 +53,6 @@ export class TourpackagesController {
   
   ) {}
 
-
   //start travel package 
   @Post('AddTravelPackage')
   async create(
@@ -60,12 +60,12 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const TourPackage = await this.tourpackagesService.Addtravelcreate(
+     await this.tourpackagesService.Addtravelcreate(
       createTourpackageDto,
     );
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: 'Travel Package added successfully', TourPackage });
+      .json({ message: 'Travel Package added successfully'});
   }
 
   @Get('AllPackages')
@@ -135,6 +135,8 @@ export class TourpackagesController {
     message: `booking policy with this Id=${BkId} is`,bookingpolicy,
   });
   }
+
+  
   
 // update booking policy  
   @Patch(':id/updatepolicy/:BkId')
@@ -269,7 +271,7 @@ async getsingleInclsuions(
 
   // delete Inclsuions
   @Delete(':id/deleteinclusions/:InId')
- async DeleteIncluions(
+ async DeleteExcluions(
   @Param('id') id: number,
   @Param('InId') InId: number,
   @Req() req: Request,
@@ -333,10 +335,41 @@ async getsingleInclsuions(
       newalbum.CardTitle =req.body.CardTitle
       await this.CardmageRepo.save({...newalbum, tourpackage})
     }
-    return res.status(HttpStatus.OK).send({message: "album Image  Added Successfully",Tourpackage })
+    return res.status(HttpStatus.OK).send({message: "album Image  Added Successfully",})
     }
-  
+  /// end adding card image
 
+// find card image
+
+
+
+@Get(':id/cardImage/:CardId')
+async getCardeImage(
+ @Param('id') id: number,
+ @Param('CardId') CardId: number,
+ @Req() req: Request,
+ @Res() res: Response)
+ {
+  const cardimage= await this.tourpackagesService.FindCardImage(id,CardId)
+  return res.status(HttpStatus.OK).json({
+   message: `card image with this Id=${CardId} is`,
+   cardimage,
+ });
+ }
+
+
+ @Get(':id/cardImage/allcardimage')
+async getAllCardeImage(
+ @Param('id') id: number,
+ @Req() req: Request,
+ @Res() res: Response)
+ {
+  const cardimage= await this.tourpackagesService.FindAllCardImage(id)
+  return res.status(HttpStatus.OK).json({
+   message: `card images`,
+   cardimage,
+ });
+ }
 
   @Post(':Id/AddalbumImage')
   @UseInterceptors(
@@ -388,6 +421,9 @@ async getsingleInclsuions(
     return res.status(HttpStatus.OK).send({message: "album Image  Added Successfully",Tourpackage })
     }
   
+
+
+
     @Post(':Id/AddvistitedImages')
     @UseInterceptors(
       FilesInterceptor('images', 20, {
@@ -437,7 +473,7 @@ async getsingleInclsuions(
         newalbum.PlaceName = req.body.PlaceName;
         await this.AlbumimageRepo.save({...newalbum, tourpackage})
       }
-      return res.status(HttpStatus.OK).send({message: "visited Added Successfully",Tourpackage })
+      return res.status(HttpStatus.OK).send({message: "visited Image Added Successfully",Tourpackage })
       }
      
 
@@ -477,6 +513,10 @@ async getsingleInclsuions(
       });
     }
 
+
+
+
+ /// addd package excluions
   @Post(':id/AddTourPackageExclusions')
   async addTourPackageExclusions(
     @Param('id', ParseIntPipe) id: number,
@@ -488,9 +528,63 @@ async getsingleInclsuions(
       id,
       packageexcluionsdto,
     );
-
-    return res.status(HttpStatus.OK).send({ message: "exlsuions  Added Successfully", exclsuions })
+    return res.status(HttpStatus.OK).send({ message: "exlusions  Added Successfully", exclsuions })
   }
+
+// get package exclsuions
+
+  @Get(':id/Exclsuions/:ExId')
+  async getPackageExclsuions(
+   @Param('id') id: number,
+   @Param('ExId') ExId: number,
+   @Req() req: Request,
+   @Res() res: Response)
+   {
+    const exclsuions = await this.tourpackagesService.FindExclsuions(id,ExId)
+    return res.status(HttpStatus.OK).json({
+     message: `Exclsuions with this Id=${ExId} is`,
+     exclsuions,
+   });
+   }
+
+//update package exclsuions
+
+
+
+@Patch(':id/updateExclsuions/:ExId')
+async updateExlsuions(
+  @Param('id') id: number,
+  @Param('ExId') ExId: number,
+  @Body() updateExclusionsDto: updatepackageExclusionsDto,
+  req: Request,
+  @Res() res: Response,
+) {
+  const updateexlsuions = await this.tourpackagesService.updateExclusions(id,ExId,updateExclusionsDto)
+  return res.status(HttpStatus.OK).json({
+    message: `Exclsuions with Id=${ExId} has updated successfully`,
+    updateexlsuions,
+  });
+}
+
+
+// delete excluions
+@Delete(':id/deleteExclusions/:ExId')
+ async DeleteIncluions(
+  @Param('id') id: number,
+  @Param('ExId') ExId: number,
+  @Req() req: Request,
+  @Res() res: Response)
+  {
+   await this.tourpackagesService.DeleteIExclusion(id,ExId)
+   return res.status(HttpStatus.OK).json({
+    message:`Exclusion Id=${ExId} has deleted successfully`,
+  });
+}
+
+
+
+
+
 
 
     @Post(':id/AddTourPackageHighlight')

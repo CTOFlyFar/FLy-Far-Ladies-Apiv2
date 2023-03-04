@@ -82,9 +82,4 @@ export class Tourpackage {
   onUpdate: "RESTRICT"})
   tourpackageplans: tourpackageplan;
 
-
-
-
-
-
 }

@@ -3,17 +3,14 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, } from '
 import { Tourpackage } from './tourpackage.entity';
 
 
-
 @Entity()
 export class packageexcluions {
   @PrimaryGeneratedColumn()
-  Id: number
+  ExId: number
   @Column()
   PackageExclusions: string;
-  
   @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.exclusions)
   @JoinColumn({name:'exclsuionId'})
   tourpackage:Tourpackage
-
  
 }
