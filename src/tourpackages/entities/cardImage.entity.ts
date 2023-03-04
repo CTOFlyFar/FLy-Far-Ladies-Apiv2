@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany,PrimaryGeneratedColumn } from "typeorm";
 import { Tourpackage } from "./tourpackage.entity";
 
 
@@ -11,6 +11,6 @@ export class CardImage{
    @Column()
    Path:string
    Filename:string
-   @OneToOne(()=>Tourpackage, (tourpackage)=>tourpackage.cardimage)
+   @OneToMany(()=>Tourpackage, (tourpackage)=>tourpackage.cardimage)
    cardimage:Tourpackage
 }

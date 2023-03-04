@@ -288,9 +288,9 @@ async getsingleInclsuions(
 
   @Post(':Id/AddcartImage')
   @UseInterceptors(
-    FileInterceptor('image',{
+    FilesInterceptor('image',10,{
       storage: diskStorage({
-        destination: './CartImages',
+        destination: './CardImages',
         filename: (req, image, callback) => {
           // const uniqueSuffix = Date.now() + '-' +Math.round(Math.random()*1e9);
           // const ext = extname(image.originalname)
@@ -302,7 +302,7 @@ async getsingleInclsuions(
   )
 
   async AddImages(
-    @UploadedFile(
+    @UploadedFiles(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
           fileType: /(jpg|jpeg|png|gif)$/,
@@ -314,7 +314,7 @@ async getsingleInclsuions(
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         }),
     )
-    file: Express.Multer.File,
+    files: Express.Multer.File[],
     @Param('Id', ParseIntPipe) Id: number,
     @Req() req: Request,
     @Body() body,
@@ -327,17 +327,17 @@ async getsingleInclsuions(
         HttpStatus.BAD_REQUEST,
       );
     }
-    const newimage = new CardImage();
-    newimage.Path = file.path;
-    newimage.Filename = file.filename;
-    newimage.CardTitle= req.body.CardTitle;
-    const savecardimage = await this.cartmageRepo.save(newimage);
-    tourpackage.cardimage =savecardimage
-    await this.travelPackageRepo.save(tourpackage);
-    return res
-      .status(HttpStatus.OK)
-      .send({ savecardimage, message: 'Travel Package cart Image added' });
-  }
+    for(const file of files){
+      const newalbum = new CardImage();
+      newalbum.Path =file.path
+    
+      newalbum.Filename =file.filename
+      newalbum.CardTitle =req.body.CardTitle
+      await this.VisitedmageRepo.save({...newalbum, tourpackage})
+    }
+    return res.status(HttpStatus.OK).send({message: "album Image  Added Successfully",Tourpackage })
+    }
+  
 
 
   @Post(':Id/AddalbumImage')
