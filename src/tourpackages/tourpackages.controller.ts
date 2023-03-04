@@ -42,6 +42,7 @@ import { CardImage } from './entities/cardImage.entity';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
+import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
 
 @Controller('tourpackages')
 export class TourpackagesController {
@@ -471,23 +472,7 @@ export class TourpackagesController {
   }
 
 
-  @Post(':id/AddPackageIncluded')
-  addpackageIncluded(
-    @Param('id', ParseIntPipe) id: number,
-    @Body()
-    createpackageIncludeDto: createPackageIncludeDto,
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
-    const packageincluded = this.tourpackagesService.AddpackageIncluded(
-      id,
-      createpackageIncludeDto,
-    );
-    return res.status(HttpStatus.OK).send({
-      packageincluded,
-      message: 'travel package Inlcluded Iteam Added',
-    });
-  }
+
 
   /// add tour package 
 
@@ -696,6 +681,79 @@ export class TourpackagesController {
       message: `Highlight Id ${HiId} has deleted successfully`,
     });
   }
+
+
+
+  
+
+// start included item package 
+  @Post(':id/AddPackageIncluded')
+  addpackageIncluded(
+    @Param('id', ParseIntPipe) id: number,
+    @Body()
+    createpackageIncludeDto: createPackageIncludeDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const packageincluded = this.tourpackagesService.AddpackageIncluded(
+      id,
+      createpackageIncludeDto,
+    );
+    return res.status(HttpStatus.OK).send({
+      packageincluded,
+      message: 'travel package Inlcluded Iteam Added',
+    });
+  }
+
+
+
+  @Get(':id/getIncluded/:InId')
+  async getPackageIncluded(
+    @Param('id') id: number,
+    @Param('InId') InId: number,
+    @Req() req: Request,
+    @Res() res: Response) {
+    const Included = await this.tourpackagesService.Findincluded(id, InId)
+    return res.status(HttpStatus.OK).json({
+      message: `Highlight with this Id ${InId}=`,
+      Included,
+    });
+  }
+
+  //update package Highlight
+
+
+
+  @Patch(':id/updateIncluded/:InId')
+  async updateIncluded(
+    @Param('id') id: number,
+    @Param('InId') InId: number,
+    @Body() updateIncludedDto: UpdateTourpackageIncludedDto,
+    req: Request,
+    @Res() res: Response,
+  ) {
+    const Included = await this.tourpackagesService.updateincluded(id, InId, updateIncludedDto)
+    return res.status(HttpStatus.OK).json({
+      message: `Included with Id ${InId} has updated successfully`,
+      Included,
+    });
+  }
+
+
+  // delete Highlight
+
+  @Delete(':id/Deleteincluded/:InId')
+  async DeleteIncluded(
+    @Param('id') id: number,
+    @Param('InId') InId: number,
+    @Req() req: Request,
+    @Res() res: Response) {
+    await this.tourpackagesService.Deleteincluded(id, InId)
+    return res.status(HttpStatus.OK).json({
+      message: `Included item Id ${InId} has deleted successfully`,
+    });
+  }
+
 
 
 

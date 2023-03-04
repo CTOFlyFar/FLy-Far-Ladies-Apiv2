@@ -26,6 +26,7 @@ import { CardImage } from './entities/cardImage.entity';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
+import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
 
 
 @Injectable()
@@ -570,6 +571,13 @@ export class TourpackagesService {
   }
 
 
+  // End exclusions
+
+
+  //start  included
+
+
+
   async AddpackageIncluded(
     Id: number,
     PackgeincludedDto: createPackageIncludeDto,
@@ -585,6 +593,83 @@ export class TourpackagesService {
     const saveincluded = await this.packageIncludeRepo.save(Addincluded);
     return saveincluded;
   }
+
+
+
+
+  // find Exclusions
+  async Findincluded(Id: number, InId: number) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const included = await this.packageIncludeRepo.findOne({ where: { InId } })
+    if (!included) {
+      throw new HttpException(
+        `included not found with this id=${InId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return included;
+  }
+
+  // update inclusions
+  async updateincluded(Id: number, InId: number, updateincludedDto: UpdateTourpackageIncludedDto) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const included = await this.packageIncludeRepo.findOne({ where: { InId } })
+    if (!included) {
+      throw new HttpException(
+        `included not found with this id=${InId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const updateincluded = await this.packageIncludeRepo.update({ InId }, { ...updateincludedDto })
+    return updateincluded;
+  }
+
+
+  // Delete exclusions
+  async Deleteincluded(Id: number, InId: number) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const included = await this.packageIncludeRepo.findOne({ where: { InId } })
+    if (!included) {
+      throw new HttpException(
+        `included not found with this id=${InId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    await this.packageIncludeRepo.delete(InId);
+  }
+
+
 
 
 
