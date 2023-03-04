@@ -1,6 +1,7 @@
 
 
-import { Column, Entity, JoinColumn, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typeorm';
+
+import { Column, Entity, JoinColumn, PrimaryGeneratedColumn, OneToMany, } from 'typeorm';
 import { AlbumImage } from './albumimage.entity';
 import { bookingpolicy } from './bookingpolicy.entity';
 import { CardImage } from './cardImage.entity';
@@ -41,12 +42,9 @@ export class Tourpackage {
   @Column({ default: true })
   Showpackage: boolean;
 
-  @OneToOne(() => CardImage, {eager:true, onDelete: 'CASCADE',
+  @OneToMany(() => CardImage, (cardimage)=>cardimage.tourpackage, {eager:true, onDelete: 'CASCADE',
   onUpdate: "RESTRICT"})
-  @JoinColumn()
   cardimage:CardImage;
-
-
   @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage,{
   cascade: true,})
   @JoinColumn({name:'album image'})

@@ -17,7 +17,6 @@ import {
   UseInterceptors,
   UploadedFiles,
   Patch,
-  UploadedFile,
 
 } from '@nestjs/common';
 import { TourpackagesService } from './tourpackages.service';
@@ -39,7 +38,6 @@ import { VisitedPalce } from './entities/visitedplace.entity';
 import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { UpdateRefundPolicy } from './dto/update-refundpolicy.dto';
 import { updatepackageInclusionDto } from './dto/update-packageincluion.dto';
-import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
 import { CardImage } from './entities/cardImage.entity';
 
 @Controller('tourpackages')
@@ -48,7 +46,7 @@ export class TourpackagesController {
     //Repository
     @InjectRepository(AlbumImage) private VisitedmageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPalce) private AlbumimageRepo: Repository<AlbumImage>,
-    @InjectRepository(CardImage) private cartmageRepo: Repository<CardImage>,
+    @InjectRepository(CardImage) private CardmageRepo: Repository<CardImage>,
     @InjectRepository(Tourpackage) private travelPackageRepo: Repository<Tourpackage>,
     private readonly tourpackagesService: TourpackagesService,
   
@@ -327,13 +325,13 @@ async getsingleInclsuions(
         HttpStatus.BAD_REQUEST,
       );
     }
+
     for(const file of files){
       const newalbum = new CardImage();
       newalbum.Path =file.path
-    
       newalbum.Filename =file.filename
       newalbum.CardTitle =req.body.CardTitle
-      await this.VisitedmageRepo.save({...newalbum, tourpackage})
+      await this.CardmageRepo.save({...newalbum, tourpackage})
     }
     return res.status(HttpStatus.OK).send({message: "album Image  Added Successfully",Tourpackage })
     }

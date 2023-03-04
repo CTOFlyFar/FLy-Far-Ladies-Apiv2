@@ -21,11 +21,11 @@ import { CardImage } from './tourpackages/entities/cardImage.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'flyfarint.com',
       port: 3306,
-      username: 'root',
-      password: '',
-      database: 'flyfar-ladies',
+      username: 'flyfarin_fflv2',
+      password: '123Next2$',
+      database: 'flyfarin_fflv2',
       autoLoadEntities:true,
       entities: [
         Tourpackage,
@@ -50,3 +50,8 @@ import { CardImage } from './tourpackages/entities/cardImage.entity';
   providers: [AppService],
 })
 export class AppModule { }
+
+// $servername = "flyfarint.com";
+//     $username = "flyfarin_fflv2";
+//     $dbname = "flyfarin_fflv2";
+//     $password = "123Next2$";
