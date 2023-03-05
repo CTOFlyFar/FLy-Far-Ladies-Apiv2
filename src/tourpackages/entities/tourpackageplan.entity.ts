@@ -9,7 +9,7 @@ export class tourpackageplan {
   @IsNotEmpty()
   @Column({ type: 'text'})
   dayplan: string;
-
+  
   @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.tourpackageplans)
   @JoinColumn({ name: 'Tour_package_plan' })
   tourpackage:Tourpackage

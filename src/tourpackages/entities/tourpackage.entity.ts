@@ -18,8 +18,9 @@ import { VisitedPalce } from './visitedplace.entity';
 export class Tourpackage {
   @PrimaryGeneratedColumn()
   Id: number;
-  @IsNotEmpty({message:"Please enter PkId"})
+
   @Column()
+  @IsNotEmpty({message:"Please enter PkId"})
   PkId: string;
   @Column()
   @IsNotEmpty()
