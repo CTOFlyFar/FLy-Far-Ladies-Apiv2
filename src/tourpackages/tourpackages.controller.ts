@@ -43,6 +43,9 @@ import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
 import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
 
+// import { join } from 'path';
+// import { of } from 'rxjs';
+
 @Controller('tourpackages')
 export class TourpackagesController {
   constructor(
@@ -54,6 +57,13 @@ export class TourpackagesController {
     private readonly tourpackagesService: TourpackagesService,
 
   ) {}
+
+  // @Get('albumimage/:filename')
+  // getImageFile(@Param('filename') filename, @Res() res: Response){
+  //  return of(res.sendFile(join(process.cwd(), 'AlbumImages/' + filename)));
+  // }
+
+
 
 
   //start travel package 
@@ -258,7 +268,7 @@ addTourPackageBookingPolicy(
   }
   // refund policy End
 
-  
+
 
   // Inclusions  start
 
@@ -376,7 +386,7 @@ addTourPackageBookingPolicy(
       newalbum.CardTitle = req.body.CardTitle
       await this.CardmageRepo.save({ ...newalbum, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({ message: "album Image  Added Successfully", })
+    return res.status(HttpStatus.OK).send({ message: "Cover Image  Added Successfully", })
   }
   /// end adding card image
 
