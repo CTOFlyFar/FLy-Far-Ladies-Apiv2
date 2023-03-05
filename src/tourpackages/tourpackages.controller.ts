@@ -17,7 +17,6 @@ import {
   UseInterceptors,
   UploadedFiles,
   Patch,
-
 } from '@nestjs/common';
 import { TourpackagesService } from './tourpackages.service';
 import { CreateTourPackageDto } from './dto/create-tourpackage.dto';
@@ -54,10 +53,15 @@ export class TourpackagesController {
     @InjectRepository(Tourpackage) private travelPackageRepo: Repository<Tourpackage>,
     private readonly tourpackagesService: TourpackagesService,
 
-  ) { }
+  ) {}
+  
 
   //start travel package 
   @Post('AddTravelPackage')
+  @UseInterceptors(FilesInterceptor('files'))
+  uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
+  console.log(files);
+  }
   async create(
     @Body() createTourpackageDto: CreateTourPackageDto,
     @Req() req: Request,
