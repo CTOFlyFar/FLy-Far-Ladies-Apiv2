@@ -129,6 +129,27 @@ export class TourpackagesController {
       message: `Tour Package Id=${id} has deleted successfully`,
     });
   }
+// end  tourpackage
+
+
+// add booking policy
+@Post(':id/AddBookingPolicy')
+addTourPackageBookingPolicy(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() bookingpolicydto: CreateBookingPolicyDto,
+  @Req() req: Request,
+  @Res() res: Response,
+) {
+  const tourpackageplan = this.tourpackagesService.createbookingPolicy(
+    id,
+    bookingpolicydto,
+  );
+  return res.status(HttpStatus.OK).json({
+    message: 'travel package booking policy added', tourpackageplan
+  });
+}
+
+
 
 
   @Get(':id/getpolicy/:BkId')
@@ -138,8 +159,7 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response) {
     const bookingpolicy = await this.tourpackagesService.FindbookingPolicy(id, BkId)
-    return res.status(HttpStatus.OK).json({
-      message: `booking policy with this Id=${BkId} is`, bookingpolicy,
+    return res.status(HttpStatus.OK).json({bookingpolicy,
     });
   }
 
@@ -161,6 +181,8 @@ export class TourpackagesController {
     });
   }
 
+
+
   @Delete(':id/deletepolicy/:BkId')
   async DeleteBookingPolicy(
     @Param('id') id: number,
@@ -175,7 +197,7 @@ export class TourpackagesController {
 
   // booking policy end
 
-  
+
   //refund policy start
 
   @Post(':id/AddrefundPolicy')
@@ -201,8 +223,8 @@ export class TourpackagesController {
     @Param('RId') RId: number,
     @Req() req: Request,
     @Res() res: Response) {
-    const bookingpolicy = await this.tourpackagesService.FindRefundPolicy(id, RId)
-    return res.status(HttpStatus.OK).json({bookingpolicy});
+    const refundpolicy = await this.tourpackagesService.FindRefundPolicy(id, RId)
+    return res.status(HttpStatus.OK).json({refundpolicy});
   }
 
   // update refund policy  
@@ -234,8 +256,9 @@ export class TourpackagesController {
       message: `refund policy Id=${RId} has deleted successfully`,
     });
   }
-
   // refund policy End
+
+  
 
   // Inclusions  start
 
@@ -266,8 +289,7 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response) {
     const inclsuions = await this.tourpackagesService.FindInclsuions(id, InId)
-    return res.status(HttpStatus.OK).json({
-      message: `Inclusions with this Id=${InId} is`, inclsuions,
+    return res.status(HttpStatus.OK).json({inclsuions
     });
   }
 
@@ -369,10 +391,7 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response) {
     const cardimage = await this.tourpackagesService.FindCardImage(id, CardId)
-    return res.status(HttpStatus.OK).json({
-      message: `card image with this Id=${CardId} is`,
-      cardimage,
-    });
+    return res.status(HttpStatus.OK).json({ cardimage});
   }
 
 
@@ -440,7 +459,6 @@ export class TourpackagesController {
 
 
 
-
   @Post(':Id/AddvistitedImages')
   @UseInterceptors(
     FilesInterceptor('images', 20, {
@@ -501,15 +519,12 @@ export class TourpackagesController {
     @Res() res: Response) {
     const cardimage = await this.tourpackagesService.FindAllvisitedImage(id)
     return res.status(HttpStatus.OK).json({
-      message: `visited images`,
       cardimage,
     });
   }
 
 
   /// add tour package 
-
-
 
   @Post(':id/AddTourPackagePlan')
   addTourPackagePlan(
@@ -535,16 +550,11 @@ export class TourpackagesController {
     @Param('dayId') dayId: number,
     @Req() req: Request,
     @Res() res: Response) {
-    const exclsuions = await this.tourpackagesService.Finddayplan(id, dayId)
-    return res.status(HttpStatus.OK).json({
-      message: `travel package plan with this Id=${dayId} is`,
-      exclsuions,
-    });
+    const tourplan = await this.tourpackagesService.Finddayplan(id, dayId)
+    return res.status(HttpStatus.OK).json({tourplan});
   }
 
   //update package exclsuions
-
-
 
   @Patch(':id/updateplan/:dayId')
   async updatePackageplan(
@@ -602,8 +612,7 @@ export class TourpackagesController {
     @Res() res: Response) {
     const exclsuions = await this.tourpackagesService.FindExclsuions(id, ExId)
     return res.status(HttpStatus.OK).json({
-      message: `Exclsuions with this Id=${ExId} is`,
-      exclsuions,
+      exclsuions
     });
   }
 
@@ -675,9 +684,7 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response) {
     const Highlight = await this.tourpackagesService.FindHighlight(id, HiId)
-    return res.status(HttpStatus.OK).json({
-      message: `Highlight with this Id ${HiId}=`,
-      Highlight,
+    return res.status(HttpStatus.OK).json({Highlight
     });
   }
 
@@ -748,7 +755,6 @@ export class TourpackagesController {
     @Res() res: Response) {
     const Included = await this.tourpackagesService.Findincluded(id, InId)
     return res.status(HttpStatus.OK).json({
-      message: `Highlight with this Id ${InId}=`,
       Included,
     });
   }
@@ -788,22 +794,6 @@ export class TourpackagesController {
   }
 
 
-  @Post(':id/AddBookingPolicy')
-  addTourPackageBookingPolicy(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() bookingpolicydto: CreateBookingPolicyDto,
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
-    const tourpackageplan = this.tourpackagesService.createbookingPolicy(
-      id,
-      bookingpolicydto,
-    );
-    return res.status(HttpStatus.OK).json({
-      message: 'travel package booking policy added', tourpackageplan
-    });
-
-  }
 
 
 }
