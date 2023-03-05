@@ -1,3 +1,4 @@
+import { IsNotEmpty } from '@nestjs/class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
 
@@ -6,6 +7,7 @@ import { Tourpackage } from './tourpackage.entity';
 export class VisitedPalce{
    @PrimaryGeneratedColumn()
    Id:number
+   @IsNotEmpty({message:"please give place number"})
    @Column()
    PlaceName:string
    @Column()

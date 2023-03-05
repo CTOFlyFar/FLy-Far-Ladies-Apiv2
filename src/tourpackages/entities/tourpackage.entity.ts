@@ -1,6 +1,7 @@
 
 
 
+import { IsNotEmpty } from '@nestjs/class-validator';
 import { Column, Entity, JoinColumn, PrimaryGeneratedColumn, OneToMany, } from 'typeorm';
 import { AlbumImage } from './albumimage.entity';
 import { bookingpolicy } from './bookingpolicy.entity';
@@ -17,28 +18,39 @@ import { VisitedPalce } from './visitedplace.entity';
 export class Tourpackage {
   @PrimaryGeneratedColumn()
   Id: number;
+  @IsNotEmpty({message:"Please enter PkId"})
   @Column()
   PkId: string;
   @Column()
+  @IsNotEmpty()
   MainTitle: string;
   @Column()
+  @IsNotEmpty()
   SubTitle: string;
+  @IsNotEmpty()
   @Column()
   Price: string;
+  @IsNotEmpty()
   @Column()
   Location: string;
   @Column()
   StartDate: string;
+  @IsNotEmpty()
   @Column()
   EndDate: string;
+  @IsNotEmpty()
   @Column()
   TripType: string;
+  @IsNotEmpty()
   @Column({ default: true })
   Availability: boolean;
+  @IsNotEmpty()
   @Column()
   TotalDuration: string;
+  @IsNotEmpty()
   @Column('text')
   PackageOverview: string;
+  @IsNotEmpty()
   @Column({ default: true })
   Showpackage: boolean;
 
