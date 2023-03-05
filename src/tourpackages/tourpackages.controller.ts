@@ -175,7 +175,26 @@ export class TourpackagesController {
 
   // booking policy end
 
+  
   //refund policy start
+
+  @Post(':id/AddrefundPolicy')
+  async addrefundPolicy(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() refundpolicydto: createRefundPolicyDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    await this.tourpackagesService.AddRefundPolicy(
+      id,
+      refundpolicydto,
+    );
+    return res.status(HttpStatus.OK).json({
+      message: 'travel package refundpolicy policy added',
+    });
+  }
+
+  // get refund policy
   @Get(':id/getrefundpolicy/:RId')
   async getsinglerefundPolicy(
     @Param('id') id: number,
@@ -183,9 +202,7 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response) {
     const bookingpolicy = await this.tourpackagesService.FindRefundPolicy(id, RId)
-    return res.status(HttpStatus.OK).json({
-      message: `refund policy with this Id=${RId} is`, bookingpolicy,
-    });
+    return res.status(HttpStatus.OK).json({bookingpolicy});
   }
 
   // update refund policy  
@@ -366,7 +383,7 @@ export class TourpackagesController {
     @Res() res: Response) {
     const cardimage = await this.tourpackagesService.FindAllAlbum(id)
     return res.status(HttpStatus.OK).json({
-      message: `Images images`,
+      message: `Album images`,
       cardimage,
     });
   }
@@ -771,27 +788,6 @@ export class TourpackagesController {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   @Post(':id/AddBookingPolicy')
   addTourPackageBookingPolicy(
     @Param('id', ParseIntPipe) id: number,
@@ -810,19 +806,4 @@ export class TourpackagesController {
   }
 
 
-  @Post(':id/AddrefundPolicy')
-  async addrefundPolicy(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() refundpolicydto: createRefundPolicyDto,
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
-    await this.tourpackagesService.AddRefundPolicy(
-      id,
-      refundpolicydto,
-    );
-    return res.status(HttpStatus.OK).json({
-      message: 'travel package refundpolicy policy added',
-    });
-  }
 }
