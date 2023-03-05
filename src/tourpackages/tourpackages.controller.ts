@@ -54,14 +54,10 @@ export class TourpackagesController {
     private readonly tourpackagesService: TourpackagesService,
 
   ) {}
-  
+
 
   //start travel package 
   @Post('AddTravelPackage')
-  @UseInterceptors(FilesInterceptor('files'))
-  uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
-  console.log(files);
-  }
   async create(
     @Body() createTourpackageDto: CreateTourPackageDto,
     @Req() req: Request,
@@ -72,12 +68,18 @@ export class TourpackagesController {
     );
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: 'Travel Package added successfully' });
+      .json({ message:'Travel Package added successfully' });
   }
 
   @Get('AllPackages')
-  async findAll() {
-    return await this.tourpackagesService.findAllTravelpackage();
+  async findAll(
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const travelpackages=await this.tourpackagesService.findAllTravelpackage();
+    return res
+    .status(HttpStatus.OK)
+    .json({ message:'All travel packages', travelpackages});
   }
 
 
@@ -112,7 +114,7 @@ export class TourpackagesController {
     }
     return res.status(HttpStatus.OK).json({
       message: `Tour Package with Id=${id} has updated successfully`,
-      updatepackage,
+
     });
   }
 
@@ -122,9 +124,8 @@ export class TourpackagesController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const deletePackage = await this.tourpackagesService.removepackage(+id);
+    await this.tourpackagesService.removepackage(+id);
     return res.status(HttpStatus.OK).json({
-      deletePackage,
       message: `Tour Package Id=${id} has deleted successfully`,
     });
   }
@@ -358,14 +359,14 @@ export class TourpackagesController {
   }
 
 
-  @Get(':id/cardImage/allcardimage')
+  @Get(':id/FindAllAlbum/AllAlbumImage')
   async getAllCardeImage(
     @Param('id') id: number,
     @Req() req: Request,
     @Res() res: Response) {
-    const cardimage = await this.tourpackagesService.FindAllCardImage(id)
+    const cardimage = await this.tourpackagesService.FindAllAlbum(id)
     return res.status(HttpStatus.OK).json({
-      message: `card images`,
+      message: `Images images`,
       cardimage,
     });
   }
@@ -476,6 +477,17 @@ export class TourpackagesController {
   }
 
 
+  @Get(':id/visitedImage/getAllvisitedImage')
+  async getAllvisitedImage(
+    @Param('id') id: number,
+    @Req() req: Request,
+    @Res() res: Response) {
+    const cardimage = await this.tourpackagesService.FindAllvisitedImage(id)
+    return res.status(HttpStatus.OK).json({
+      message: `visited images`,
+      cardimage,
+    });
+  }
 
 
   /// add tour package 

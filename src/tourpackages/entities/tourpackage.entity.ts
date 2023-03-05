@@ -45,7 +45,8 @@ export class Tourpackage {
   @OneToMany(() => CardImage, (cardimage)=>cardimage.tourpackage, {eager:true, onDelete: 'CASCADE',
   onUpdate: "RESTRICT"})
   cardimage:CardImage;
-  @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage,{
+  @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage,{eager:true,
+  onUpdate: "RESTRICT",
   cascade: true,})
   @JoinColumn({name:'album image'})
   albumImages: AlbumImage;

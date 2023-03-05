@@ -1,3 +1,4 @@
+import { AlbumImage } from './entities/albumimage.entity';
 
 import { Tourpackage } from 'src/tourpackages/entities/tourpackage.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
@@ -27,6 +28,8 @@ import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
 import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
+import { VisitedPalce } from './entities/visitedplace.entity';
+
 
 
 @Injectable()
@@ -49,22 +52,23 @@ export class TourpackagesService {
     @InjectRepository(refundpolicy)
     private refundPolicyRepo: Repository<refundpolicy>,
     @InjectRepository(CardImage)
-    private CardImageRepo: Repository<CardImage>
-  ) { }
-
+    private CardImageRepo: Repository<CardImage>,
+    @InjectRepository(AlbumImage)
+    private AlbumImageRepo: Repository<AlbumImage>,
+    @InjectRepository(VisitedPalce)
+    private visitedImageRepo: Repository<VisitedPalce>
+  ) {}
 
 
   // travel package start
-
-
 
   //Add travel package
   async CreatTravelPackage(createTourpackageDto: CreateTourPackageDto) {
     const travelpackage = await this.travelPackageRepo.create(
       createTourpackageDto,
     );
-    const Addtravelpackage = await this.travelPackageRepo.save(travelpackage);
-    return Addtravelpackage;
+    const tourpackage= await this.travelPackageRepo.save(travelpackage);
+    return tourpackage;
   }
 
 
@@ -117,25 +121,26 @@ export class TourpackagesService {
       { ...updateTourpackageDto },
     );
   }
+
+
+  
   //delete package
   async removepackage(Id: number) {
-    const deletepackage = await this.travelPackageRepo.delete(Id);
-    if (!deletepackage) {
+    const travalepackage= await this.travelPackageRepo.findOne({where:{Id}})
+    if (!travalepackage) {
       throw new HttpException(
         `TourPackage not found with this id=${Id}`,
         HttpStatus.BAD_REQUEST,
       );
     }
+    await this.travelPackageRepo.delete(Id);
+   
   }
 
   // End travel package
 
-
-  // card image start
-
-
-
-  // det card image
+  // card image start..............
+  // find card image
   async FindCardImage(Id: number, CardId: number) {
     const tourpackage = await this.travelPackageRepo.findOne({
       where: {
@@ -151,15 +156,15 @@ export class TourpackagesService {
     const cardimage = await this.CardImageRepo.findOne({ where: { CardId } })
     if (!cardimage) {
       throw new HttpException(
-        `Image not found with this filename=${CardId}`,
+        `Image not found with this id ${CardId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
     return cardimage;
   }
 
-  // get all card image
-  async FindAllCardImage(Id: number,) {
+  // get all Album image
+  async FindAllAlbum(Id: number,) {
     const tourpackage = await this.travelPackageRepo.findOne({
       where: {
         Id
@@ -171,22 +176,43 @@ export class TourpackagesService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const cardimage = await this.CardImageRepo.find({})
-    if (!cardimage) {
+    const AlbumImage = await this.AlbumImageRepo.find({})
+    if (!AlbumImage) {
       throw new HttpException(
         `Image not found with `,
         HttpStatus.BAD_REQUEST,
       );
     }
-    return cardimage;
+    return AlbumImage;
   }
 
 
-  //card image end
+//visited image
+  async FindAllvisitedImage(Id: number,) {
+    const tourpackage = await this.travelPackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const visitedImage = await this.visitedImageRepo.find({})
+    if (!AlbumImage) {
+      throw new HttpException(
+        `Image not found with `,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return visitedImage;
+  }
+
 
 
   // booking policy start.........................
-
 
   //add booking policy
   async createbookingPolicy(Id: number, CreateBookingPolicyDto: CreateBookingPolicyDto): Promise<bookingpolicy> {
@@ -202,7 +228,6 @@ export class TourpackagesService {
     return createdpolicy;
 
   }
-
 
 
 
@@ -252,7 +277,6 @@ export class TourpackagesService {
     const updatepolicy = await this.bookingPolicyRepo.update({ BkId }, { ...updateBOokingPolicy })
     return updatepolicy;
   }
-
 
 
   //Delete booking policy
@@ -320,7 +344,7 @@ export class TourpackagesService {
     const refundpolicy = await this.refundPolicyRepo.findOne({ where: { RId } })
     if (!refundpolicy) {
       throw new HttpException(
-        `booking policy not found with this id=${RId}`,
+        `refund policy not found with this id=${RId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -344,7 +368,7 @@ export class TourpackagesService {
     const bookingpolicy = await this.refundPolicyRepo.findOne({ where: { RId } })
     if (!bookingpolicy) {
       throw new HttpException(
-        `booking policy not found with this id=${RId}`,
+        `Refund policy not found with this id=${RId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -476,7 +500,6 @@ export class TourpackagesService {
 
   /// end inclusions....................
 
-
   /// start package exclsuions
 
   //add exclsuions
@@ -538,7 +561,7 @@ export class TourpackagesService {
     const exclsuions = await this.packageexcluionsRepo.findOne({ where: { ExId } })
     if (!exclsuions) {
       throw new HttpException(
-        `inclusions not found with this id=${ExId}`,
+        `exclsuions not found with this id=${ExId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -560,16 +583,15 @@ export class TourpackagesService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const inclusions = await this.packageexcluionsRepo.findOne({ where: { ExId } })
-    if (!inclusions) {
+  const exclusions = await this.packageexcluionsRepo.findOne({ where: { ExId } })
+    if (!exclusions) {
       throw new HttpException(
-        `Inclsuions not found with this id=${ExId}`,
+        `exclusions not found with this id=${ExId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
     await this.packageexcluionsRepo.delete(ExId);
   }
-
 
   // End exclusions
 
@@ -671,8 +693,6 @@ export class TourpackagesService {
 
 
 
-
-
   // add tour package
 
   async AddTourpackagePlan(
@@ -687,16 +707,13 @@ export class TourpackagesService {
       );
     }
     const createpackageplan =
-      this.tourpackagePlanRepo.create({ ...tourpackageplandto, tourpackage });
+      this.tourpackagePlanRepo.create({ ...tourpackageplandto,tourpackage });
     const savenewpackageplan = await this.tourpackagePlanRepo.save(
       createpackageplan,
     );
     return savenewpackageplan;
 
   }
-
-
-
 
 
   // find Exclusions
@@ -761,8 +778,8 @@ export class TourpackagesService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const inclusions = await this.tourpackagePlanRepo.findOne({ where: { dayId } })
-    if (!inclusions) {
+    const dayplan = await this.tourpackagePlanRepo.findOne({ where: { dayId } })
+    if (!dayplan) {
       throw new HttpException(
         `Inclsuions not found with this id=${dayId}`,
         HttpStatus.BAD_REQUEST,
@@ -815,14 +832,14 @@ export class TourpackagesService {
       );
     }
 
-    const dayplan = await this.packageHighlightRepo.findOne({ where: { HiId } })
-    if (!dayplan) {
+    const Highlight = await this.packageHighlightRepo.findOne({ where: { HiId } })
+    if (!Highlight) {
       throw new HttpException(
         `Package highlight not found with this id ${HiId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
-    return dayplan;
+    return Highlight;
   }
 
   // update inclusions
@@ -873,8 +890,9 @@ export class TourpackagesService {
     await this.packageHighlightRepo.delete(HiId);
   }
 
-
-
-
 }
+
+// end of travel package
+
+
 
