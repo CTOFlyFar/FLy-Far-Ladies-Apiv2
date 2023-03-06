@@ -32,10 +32,6 @@ export class UserServices{
       return token;
     }
 
-   // validate email
-    async getUserByEmail(Email: string): Promise<User> {
-      return this.userRepo.findOne({ where:{Email} });
-    }
 
    // login user
    async login(Email: string, Password:string,): Promise<string> {
@@ -52,7 +48,7 @@ export class UserServices{
 }
 
    // verified token
-   async findUserByToken(jwtToken: string): Promise<User> {
+   async verifyToken(jwtToken: string): Promise<User> {
       const user = await this.userRepo.findOne({ where:{jwtToken} });
       if (!user) {
          throw new HttpException("Invalid jwt token", HttpStatus.BAD_REQUEST);
@@ -60,6 +56,12 @@ export class UserServices{
       return user;
    }
 
+
+      // validate email
+      async getUserByEmail(Email: string): Promise<User> {
+         return this.userRepo.findOne({ where:{Email} });
+       }
+   
 
 
       // get All User

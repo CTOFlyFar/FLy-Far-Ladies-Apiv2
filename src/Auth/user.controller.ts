@@ -1,10 +1,12 @@
 
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Req, Res, } from '@nestjs/common';
+
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './Dto/create-user.dto';
 import { UserServices } from './user.service';
 import { Request, Response } from 'express';
 import { User } from './entities/user.entity';
 import { updateUserDto } from './Dto/update-user.dto';
+import { JwtAuthGuard } from './auth.guard';
 
 
 
@@ -34,13 +36,15 @@ export class UserController{
    // verify token
    @Post('verify')
    async verify(@Body('jwtToken') jwtToken: string): Promise<User> {
-     const user = await this.userServices.findUserByToken(jwtToken);
+     const user = await this.userServices.verifyToken(jwtToken);
      return user;
    }
 
-   
+
    // all user
+   
    @Get('Alluser')
+   @UseGuards(JwtAuthGuard)
    async FindAll(
       @Req() req: Request,
       @Res() res: Response){
