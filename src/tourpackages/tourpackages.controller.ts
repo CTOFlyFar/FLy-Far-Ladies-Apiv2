@@ -78,7 +78,7 @@ export class TourpackagesController {
     );
     return res
       .status(HttpStatus.CREATED)
-      .json({ message:'Travel Package added successfully' });
+      .json({ message:'Travel Package added successfully'});
   }
 
   @Get('AllPackages')

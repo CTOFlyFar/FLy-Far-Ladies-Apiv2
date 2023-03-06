@@ -16,18 +16,21 @@ import { packagehighlight } from './tourpackages/entities/packagehighlight.entit
 import { bookingpolicy } from './tourpackages/entities/bookingpolicy.entity';
 import { VisitedPalce } from './tourpackages/entities/visitedplace.entity';
 import { CardImage } from './tourpackages/entities/cardImage.entity';
+import { User } from './Auth/entities/user.entity';
+import { UserModule } from './Auth/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'flyfarint.com',
+      host: '127.0.0.1',
       port: 3306,
-      username: 'flyfarin_fflv2',
-      password: '123Next2$',
-      database: 'flyfarin_fflv2',
+      username: 'root',
+      password: '',
+      database: 'flyfar-ladies',
       autoLoadEntities: true,
       entities: [
+        User,
         Tourpackage,
         AlbumImage,
         CardImage,
@@ -43,6 +46,7 @@ import { CardImage } from './tourpackages/entities/cardImage.entity';
       synchronize: true,
     }),
     TourpackagesModule,
+    UserModule,
 
   ],
 

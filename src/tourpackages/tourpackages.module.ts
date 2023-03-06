@@ -29,10 +29,10 @@ import { CardImage } from './entities/cardImage.entity';
       packagehighlight,
       bookingpolicy,
       refundpolicy,
-    ]),
+    ])
   ],
   controllers: [TourpackagesController],
   providers: [TourpackagesService, ],
-  exports:[TourpackagesService]
+  // exports:[TourpackagesService]
 })
-export class TourpackagesModule { }
+export class TourpackagesModule {}

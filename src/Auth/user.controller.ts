@@ -1,0 +1,80 @@
+
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Req, Res, } from '@nestjs/common';
+import { CreateUserDto } from './Dto/create-user.dto';
+import { UserServices } from './user.service';
+import { Request, Response } from 'express';
+import { User } from './entities/user.entity';
+import { updateUserDto } from './Dto/update-user.dto';
+
+
+
+@Controller('Users')
+export class UserController{
+   constructor(private userServices:UserServices){}
+   // User Registration
+   @Post('Register')
+   async Register(
+      @Body() userDto:CreateUserDto,
+      @Req() req: Request,
+      @Res() res: Response){
+         const ExistUser = await this.userServices.getUserByEmail(userDto.Email)
+         if(ExistUser){
+            throw new HttpException("User Already Exist,please try again with another email", HttpStatus.BAD_REQUEST,);
+         }
+      await this.userServices.Register(userDto)
+      return res.status(HttpStatus.CREATED).json({ message:'user register successfully'});
+   }
+   // User Login
+   @Post('login')
+   async login(@Body('Email') Email: string, @Body('Password') Password: string): Promise<{ token: string }> {
+     const token = await this.userServices.login(Email, Password);
+     return { token };
+   }
+
+   // verify token
+   @Post('verify')
+   async verify(@Body('jwtToken') jwtToken: string): Promise<User> {
+     const user = await this.userServices.findUserByToken(jwtToken);
+     return user;
+   }
+
+   
+   // all user
+   @Get('Alluser')
+   async FindAll(
+      @Req() req: Request,
+      @Res() res: Response){
+         const users = await this.userServices.FindAllUser();
+         return res.status(HttpStatus.OK).json({users});
+   }
+
+   // get user dashbboard
+   @Get(':id')
+   async userDashboard(
+      @Param('id') id:string,
+      @Req() req: Request,
+      @Res() res: Response){
+         const user = await this.userServices.findUserById(id);
+         return res.status(HttpStatus.OK).json({user});
+   }
+
+   @Patch(':id')
+   async updateUser(
+      @Param('id') id:string,
+      @Req() req: Request,
+      @Res() res: Response,
+      @Body() userupdatedto:updateUserDto){
+         await this.userServices.UpdateUser(id,userupdatedto)
+         return res.status(HttpStatus.OK).json({message:'user updated successfully'});
+      }
+
+   @Delete(':id')
+   async Deleteuser(
+      @Param('id') id:string,
+      @Req() req: Request,
+      @Res() res: Response ){
+         await this.userServices.DeleteUser(id)
+         return res.status(HttpStatus.OK).json({message:'user has deleted'});
+      }
+
+}
