@@ -22,13 +22,12 @@ import { UserModule } from './Auth/user.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'flyfar-ladies',
-      autoLoadEntities: true,
+    type: 'mysql',
+    host: 'flyfarint.com',
+    port: 3306,
+    username: 'flyfarin_fflv2',
+    password: '123Next2$',
+    database: 'flyfarin_fflv2',
       entities: [
         User,
         Tourpackage,
