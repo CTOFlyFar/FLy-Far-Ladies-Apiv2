@@ -1,6 +1,4 @@
 
-
-
 export class CreateTravellerDto{
    Id:string
    NameTitle:string
@@ -20,6 +18,5 @@ export class CreateTravellerDto{
    FaceBookId:string
    whatsApp:string
    LinkedIn:string
-
 
 }

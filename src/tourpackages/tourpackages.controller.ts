@@ -58,10 +58,6 @@ export class TourpackagesController {
 
   ) {}
 
-  // @Get('albumimage/:filename')
-  // getImageFile(@Param('filename') filename, @Res() res: Response){
-  //  return of(res.sendFile(join(process.cwd(), 'AlbumImages/' + filename)));
-  // }
 
 
 
