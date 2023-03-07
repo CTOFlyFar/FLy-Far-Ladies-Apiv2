@@ -10,13 +10,10 @@ export class User{
    Id:string
    @IsNotEmpty()
    @Column()
-   NameTitle:string
+   Name:string
    @IsNotEmpty()
    @Column()
-   Fname:string
-   @IsNotEmpty()
-   @Column()
-   Lname:string
+   Mobile:string
    @IsEmail()
    @IsNotEmpty()
    @Column()
@@ -24,23 +21,6 @@ export class User{
    @IsNotEmpty()
    @Column()
    Password:string
-   @IsNotEmpty()
-   @Column()
-   DOB:string
-   @IsNotEmpty()
-   @Column()
-   Gender:string
-   @IsNotEmpty()
-   @Column()
-   Profession:string
-   @IsNotEmpty()
-   @Column()
-   Nationality:string
-   @IsNotEmpty()
-   @Column()
-   NID:string
-   @Column()
-   Address:string
    @Column({nullable:true})
    jwtToken:string
    @CreateDateColumn()

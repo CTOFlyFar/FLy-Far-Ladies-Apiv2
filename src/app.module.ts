@@ -18,6 +18,8 @@ import { VisitedPalce } from './tourpackages/entities/visitedplace.entity';
 import { CardImage } from './tourpackages/entities/cardImage.entity';
 import { User } from './Auth/entities/user.entity';
 import { UserModule } from './Auth/user.module';
+import { Traveller } from './Traveller/entities/traveller.entity';
+import { TravellerModule } from './Traveller/traveller.module';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { UserModule } from './Auth/user.module';
     password: '123Next2$',
     database: 'flyfarin_fflv2',
       entities: [
+        Traveller,
         User,
         Tourpackage,
         AlbumImage,
@@ -46,6 +49,7 @@ import { UserModule } from './Auth/user.module';
     }),
     TourpackagesModule,
     UserModule,
+    TravellerModule
 
   ],
 
