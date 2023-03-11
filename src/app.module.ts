@@ -20,6 +20,7 @@ import { User } from './Auth/entities/user.entity';
 import { UserModule } from './Auth/user.module';
 import { Traveller } from './Traveller/entities/traveller.entity';
 import { TravellerModule } from './Traveller/traveller.module';
+import { Userprofile } from './userProfile/entitties/userprofile.entities';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { TravellerModule } from './Traveller/traveller.module';
     password: '123Next2$',
     database: 'flyfarin_fflv2',
       entities: [
+        Userprofile,
         Traveller,
         User,
         Tourpackage,

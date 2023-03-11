@@ -18,7 +18,7 @@ async function start() {
   SwaggerModule.setup('api', app, document);
   app.enableCors()
 
-  await app.listen(3000);
+  await app.listen(5000);
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());

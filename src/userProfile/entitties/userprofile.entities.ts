@@ -1,9 +1,8 @@
-
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { Column, CreateDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-export class Traveller {
+export class Userprofile {
    @PrimaryColumn({type:"uuid"})
    @Generated("uuid")
    Id:string
