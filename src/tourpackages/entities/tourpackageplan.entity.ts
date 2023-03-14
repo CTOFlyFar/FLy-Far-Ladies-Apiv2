@@ -14,5 +14,4 @@ export class tourpackageplan {
   @JoinColumn({ name: 'Tour_package_plan' })
   tourpackage:Tourpackage
  
- 
 }

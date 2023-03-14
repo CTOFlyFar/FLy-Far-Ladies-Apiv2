@@ -41,7 +41,7 @@
     "mysql2": "^3.2.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
-    "querybuilder": "^1.1.0",
+    "querybuilder": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.12"
@@ -98,8 +98,10 @@
       "node"
     ]
   },
-  "include": [".eslintrc.js", "./app/**/*"],
-
+  "include": [
+    ".eslintrc.js",
+    "./app/**/*"
+  ],
   "engines": {
     "node": "16"
   },
